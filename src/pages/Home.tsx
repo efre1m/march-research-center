@@ -1,16 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import SectionHeader from '../components/ui/SectionHeader';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import ImageSlider from '../components/ui/ImageSlider';
 import ScrollToTop from '../components/ui/ScrollToTop';
-import { smoothScrollToTop } from '../utils/smoothScroll';
+
 
 interface HomeProps {
-    onNavigate?: (page: string) => void;
+    // Remove onNavigate prop since we're using useNavigate
 }
 
-const Home: React.FC<HomeProps> = ({ onNavigate }) => {
+const Home: React.FC<HomeProps> = () => {
+    const navigate = useNavigate();
+
     // Hero Slider Images and Data
     const heroSlides = [
         {
@@ -153,7 +156,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
     };
 
     // Enhanced navigation handler with smooth transitions
-    const handleNavigation = (page: string) => {
+    const handleNavigation = (path: string) => {
         const mainContent = document.querySelector('main');
         if (mainContent) {
             mainContent.style.opacity = '0.7';
@@ -161,10 +164,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         }
 
         setTimeout(() => {
-            if (onNavigate) {
-                onNavigate(page);
-            }
-            setTimeout(smoothScrollToTop, 100);
+            navigate(path);
         }, 300);
 
         setTimeout(() => {
@@ -173,6 +173,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             }
         }, 600);
     };
+
 
     // Handle image error - fallback to gradient background
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement | HTMLDivElement, Event>) => {
@@ -311,7 +312,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                         <Button
                             variant="secondary"
                             className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('News & Events')}
+                            onClick={() => handleNavigation('/news-events')}
                         >
                             View All News & Updates
                         </Button>
@@ -376,7 +377,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                         <Button
                             variant="secondary"
                             className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('News & Events')}
+                            onClick={() => handleNavigation('/news-events')}
                         >
                             View All Events & Programs
                         </Button>
@@ -426,7 +427,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
                                 <button
                                     className="text-gold text-sm font-semibold hover:underline flex items-center justify-center gap-2 group-hover:gap-3 transition-all duration-300 w-full py-2 rounded-lg hover:bg-gold/5 border border-gold/20 group-hover:border-gold/40"
-                                    onClick={() => handleNavigation('Team')}
+                                    onClick={() => handleNavigation('/team')}
                                 >
                                     View Full Profile
                                     <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -439,7 +440,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                         <Button
                             variant="secondary"
                             className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('Team')}
+                            onClick={() => handleNavigation('/team')}
                         >
                             Explore Full Team Directory
                         </Button>
@@ -461,19 +462,19 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                             {
                                 icon: '🔬',
                                 title: 'Research Programs',
-                                page: 'Research',
+                                path: '/projects',
                                 description: 'Explore our groundbreaking studies and clinical trials advancing maternal healthcare worldwide.'
                             },
                             {
                                 icon: '🌍',
                                 title: 'Global Impact',
-                                page: 'About',
+                                path: '/about',
                                 description: 'See how our programs are transforming healthcare delivery in communities across the globe.'
                             },
                             {
                                 icon: '🤝',
                                 title: 'Collaborate With Us',
-                                page: 'Contact',
+                                path: '/contact',
                                 description: 'Join our mission through partnerships, research collaborations, and career opportunities.'
                             }
                         ].map((link, index) => (
@@ -491,7 +492,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                                 <Button
                                     variant="primary"
                                     className="w-full py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                                    onClick={() => handleNavigation(link.page)}
+                                    onClick={() => handleNavigation(link.path)}
                                 >
                                     Explore {link.title}
                                 </Button>

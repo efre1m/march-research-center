@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Heading from '../components/ui/Heading';
 import Card from '../components/ui/Card';
@@ -99,7 +99,9 @@ const ProjectDetail: React.FC = () => {
                     />
                 ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-dark-blue to-gold/10">
-                        <div className="text-gold text-6xl font-bold">{project.title.split(' ').map(w => w[0]).join('')}</div>
+                        <div className="text-gold text-6xl font-bold">
+                            {project.title.split(' ').map(w => w[0]).join('')}
+                        </div>
                     </div>
                 )}
                 <div className="absolute inset-0 bg-dark-blue/60" />
