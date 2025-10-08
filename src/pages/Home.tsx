@@ -4,8 +4,10 @@ import SectionHeader from '../components/ui/SectionHeader';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import ImageSlider from '../components/ui/ImageSlider';
-import ScrollToTop from '../components/ui/ScrollToTop';
-
+import { coreTeamMembers } from '../data/teamdata';
+import { newsItems } from '../data/newsdata';
+import { events } from '../data/eventsdata';
+import { stories } from '../data/storiesdata';
 
 interface HomeProps {
     // Remove onNavigate prop since we're using useNavigate
@@ -39,118 +41,11 @@ const Home: React.FC<HomeProps> = () => {
         }
     ];
 
-    // Core Team Members
-    const coreTeam = [
-        {
-            id: 1,
-            name: 'Dr. Araya',
-            role: 'Director & Senior Researcher',
-            expertise: 'Maternal Health, Global Health Systems',
-            image: '/images/team/1.jpg'
-        },
-        {
-            id: 2,
-            name: 'Mr. Kbrom',
-            role: 'Lead Research Scientist',
-            expertise: 'Medical Technology, Health Innovation',
-            image: '/images/team/2.jpg'
-        },
-        {
-            id: 3,
-            name: 'Ms. Liya',
-            role: 'Community Health Director',
-            expertise: 'Community Engagement, Health Equity',
-            image: '/images/team/3.jpg'
-        },
-        {
-            id: 4,
-            name: 'Mr. Samson',
-            role: 'Clinical Research Lead',
-            expertise: 'Obstetrics, Clinical Trials',
-            image: '/images/team/4.jpg'
-        }
-    ];
-
-    const latestNews = [
-        {
-            id: 1,
-            title: 'Groundbreaking Study Shows 60% Reduction in Postpartum Complications',
-            date: 'Dec 15, 2024',
-            excerpt: 'New intervention protocol demonstrates significant improvement in maternal outcomes.',
-            author: 'Research Team',
-            image: '/images/news/news1.jpg'
-        },
-        {
-            id: 2,
-            title: 'MARCH Partners with World Health Organization',
-            date: 'Dec 8, 2024',
-            excerpt: 'New collaboration aims to implement proven maternal health frameworks.',
-            author: 'Partnership Team',
-            image: '/images/news/news2.jpg'
-        },
-        {
-            id: 3,
-            title: 'Digital Health Platform Reaches Major Milestone',
-            date: 'Nov 30, 2024',
-            excerpt: 'Mobile health application now supports community health workers.',
-            author: 'Technology Team',
-            image: '/images/news/news3.jpg'
-        },
-        {
-            id: 4,
-            title: 'New Research Grant Awarded',
-            date: 'Nov 20, 2024',
-            excerpt: 'Funding secured to develop innovative neonatal care technologies.',
-            author: 'Research Department',
-            image: '/images/news/news4.jpg'
-        }
-    ];
-
-    const upcomingEvents = [
-        {
-            id: 1,
-            title: 'Global Maternal Health Symposium 2025',
-            date: 'January 20, 2025',
-            time: '9:00 AM - 5:00 PM',
-            location: 'Virtual & Nairobi, Kenya',
-            status: 'Upcoming',
-            image: '/images/events/conference.jpg'
-        },
-        {
-            id: 2,
-            title: 'Emergency Obstetric Care Training',
-            date: 'February 5-12, 2025',
-            time: '8:00 AM - 4:00 PM Daily',
-            location: 'Dhaka, Bangladesh',
-            status: 'Upcoming',
-            image: '/images/events/training.jpg'
-        },
-        {
-            id: 3,
-            title: 'Community Health Worker Workshop',
-            date: 'March 8-15, 2025',
-            time: '10:00 AM - 2:00 PM Daily',
-            location: 'Lagos, Nigeria',
-            status: 'Upcoming',
-            image: '/images/events/workshop.jpg'
-        },
-        {
-            id: 4,
-            title: 'Research Findings Webinar',
-            date: 'March 15, 2025',
-            time: '2:00 PM - 4:00 PM',
-            location: 'Virtual Event',
-            status: 'Upcoming',
-            image: '/images/events/webinar.jpg'
-        }
-    ];
-
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'Upcoming': return 'bg-green-500/20 text-green-400 border border-green-500/30';
-            case 'Ongoing': return 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
-            case 'Completed': return 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
-            case 'Cancelled': return 'bg-red-500/20 text-red-400 border border-red-500/30';
+            case 'upcoming': return 'bg-green-500/20 text-green-400 border border-green-500/30';
+            case 'ongoing': return 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
+            case 'completed': return 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
             default: return 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
         }
     };
@@ -173,7 +68,6 @@ const Home: React.FC<HomeProps> = () => {
             }
         }, 600);
     };
-
 
     // Handle image error - fallback to gradient background
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement | HTMLDivElement, Event>) => {
@@ -207,7 +101,7 @@ const Home: React.FC<HomeProps> = () => {
     return (
         <div className="space-y-16 animate-fadeIn">
             {/* Scroll to Top Button */}
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
 
             {/* Hero Header Section */}
             <section className="animate-slideUp">
@@ -268,19 +162,19 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
-            {/* Latest News Section with Clickable Header */}
+            {/* Latest News Section */}
             <section id="latest-news" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
-                        title="Latest Research & News"
+                        title="Latest News"
                         subtitle="Stay informed with our most recent breakthroughs and developments in maternal healthcare"
                         variant="slanted"
                         onClick={() => handleSectionClick('latest-news')}
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {latestNews.map((news, index) => (
-                            <Card key={news.id} className={`group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col animate-fadeIn delay-${index * 100}`}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {newsItems.slice(0, 3).map((news) => (
+                            <Card key={news.id} className={`group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col animate-fadeIn`}>
                                 {/* Image with fallback */}
                                 <div
                                     className="relative h-48 overflow-hidden rounded-t-lg bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 flex items-center justify-center"
@@ -312,27 +206,27 @@ const Home: React.FC<HomeProps> = () => {
                         <Button
                             variant="secondary"
                             className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('/news-events')}
+                            onClick={() => handleNavigation('/news')}
                         >
-                            View All News & Updates
+                            View All News
                         </Button>
                     </div>
                 </div>
             </section>
 
-            {/* Upcoming Events Section with Clickable Header */}
+            {/* Upcoming Events Section */}
             <section id="upcoming-events" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
-                        title="Upcoming Events & Programs"
+                        title="Upcoming Events"
                         subtitle="Join our knowledge-sharing sessions, training programs, and collaborative events"
                         variant="elegant"
                         onClick={() => handleSectionClick('upcoming-events')}
                     />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {upcomingEvents.map((event, index) => (
-                            <Card key={event.id} className={`group hover:transform hover:scale-[1.01] transition-all duration-500 overflow-hidden animate-fadeIn delay-${index * 100}`}>
+                        {events.slice(0, 2).map((event) => (
+                            <Card key={event.id} className={`group hover:transform hover:scale-[1.01] transition-all duration-500 overflow-hidden animate-fadeIn`}>
                                 <div className="flex flex-col md:flex-row gap-6">
                                     <div className="md:w-2/5">
                                         <div
@@ -377,15 +271,80 @@ const Home: React.FC<HomeProps> = () => {
                         <Button
                             variant="secondary"
                             className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('/news-events')}
+                            onClick={() => handleNavigation('/events')}
                         >
-                            View All Events & Programs
+                            View All Events
                         </Button>
                     </div>
                 </div>
             </section>
 
-            {/* Leadership Team Section with Clickable Header */}
+            {/* Impact Stories Section */}
+            <section id="impact-stories" className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <SectionHeader
+                        title="Impact Stories"
+                        subtitle="Discover inspiring stories of transformation and innovation in maternal healthcare"
+                        variant="modern"
+                        onClick={() => handleSectionClick('impact-stories')}
+                    />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {stories.slice(0, 2).map((story) => (
+                            <Card
+                                key={story.id}
+                                className="group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden cursor-pointer"
+                                onClick={() => handleNavigation(`/stories/${story.id}`)}
+                            >
+                                <div className="flex flex-col h-full">
+                                    <div className="relative h-48 bg-gradient-to-br from-gold/20 to-dark-blue rounded-t-lg overflow-hidden">
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="text-gold text-4xl">📖</div>
+                                        </div>
+                                        <div className="absolute top-4 left-4">
+                                            <span className="px-3 py-1 bg-gold text-dark-blue text-sm font-semibold rounded-full">
+                                                {story.category}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-6 flex-1 flex flex-col">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <span className="text-white/60 text-sm">{story.date}</span>
+                                            <span className="text-white/60 text-sm">{story.readTime}</span>
+                                        </div>
+
+                                        <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-gold transition-colors duration-300">
+                                            {story.title}
+                                        </h3>
+
+                                        <p className="text-white/70 text-sm mb-4 leading-relaxed flex-1">
+                                            {story.excerpt}
+                                        </p>
+
+                                        <div className="flex items-center justify-between pt-4 border-t border-white/20">
+                                            <span className="text-white/50 text-sm">By {story.author}</span>
+                                            <span className="text-gold font-semibold text-sm">Read Story →</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-8">
+                        <Button
+                            variant="secondary"
+                            className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
+                            onClick={() => handleNavigation('/stories')}
+                        >
+                            View All Stories
+                        </Button>
+                    </div>
+                </div>
+            </section>
+
+            {/* Leadership Team Section */}
             <section id="leadership-team" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -396,10 +355,10 @@ const Home: React.FC<HomeProps> = () => {
                     />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {coreTeam.map((member, index) => (
+                        {coreTeamMembers.map((member) => (
                             <Card
                                 key={member.id}
-                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden animate-fadeIn delay-${index * 100}`}
+                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden animate-fadeIn`}
                             >
                                 {/* Circular Profile Image with fallback */}
                                 <div
@@ -422,7 +381,7 @@ const Home: React.FC<HomeProps> = () => {
                                     {member.role}
                                 </div>
                                 <div className="text-white/70 text-sm mb-4 leading-relaxed">
-                                    {member.expertise}
+                                    {member.department}
                                 </div>
 
                                 <button
@@ -477,10 +436,10 @@ const Home: React.FC<HomeProps> = () => {
                                 path: '/contact',
                                 description: 'Join our mission through partnerships, research collaborations, and career opportunities.'
                             }
-                        ].map((link, index) => (
+                        ].map((link) => (
                             <Card
                                 key={link.title}
-                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 p-8 animate-fadeIn delay-${index * 150}`}
+                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 p-8 animate-fadeIn`}
                             >
                                 <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">{link.icon}</div>
                                 <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-gold transition-colors duration-300">

@@ -210,3 +210,57 @@ a:focus {
 .delay-150 {
     animation-delay: 150ms;
 }
+
+/* Breadcrumb Styles */
+.breadcrumb-enter {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.breadcrumb-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Enhanced breadcrumb hover effects */
+.breadcrumb-item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+    transform: translateY(-1px);
+}
+
+.breadcrumb-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #FFD700, transparent);
+    transition: width 0.3s ease;
+}
+
+.breadcrumb-item:hover::after {
+    width: 100%;
+}
+
+/* Breadcrumb separator animation */
+.breadcrumb-separator {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

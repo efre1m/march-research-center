@@ -6,10 +6,16 @@ import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import Publications from './pages/Publications';
 import Team from './pages/Team';
-import NewsEvents from './pages/NewsEvents';
+import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
+import Events from './pages/Events';
+import EventDetail from './pages/EventDetail';
+import Stories from './pages/Stories';
+import StoryDetail from './pages/StoryDetail';
 import Careers from './pages/Careers';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ScrollToTop from './components/ui/ScrollToTop';
 import './styles/globals.css';
 import { useEffect } from 'react';
 
@@ -34,7 +40,9 @@ const AppWrapper: React.FC = () => {
     if (path.startsWith('/projects')) return 'Projects';
     if (path.startsWith('/publications')) return 'Publications';
     if (path.startsWith('/team')) return 'Team';
-    if (path.startsWith('/news-events')) return 'News & Events';
+    if (path.startsWith('/news')) return 'News';
+    if (path.startsWith('/events')) return 'Events';
+    if (path.startsWith('/stories')) return 'Stories';
     if (path.startsWith('/careers')) return 'Careers';
     if (path.startsWith('/about')) return 'About';
     if (path.startsWith('/contact')) return 'Contact';
@@ -50,7 +58,9 @@ const AppWrapper: React.FC = () => {
       case 'Projects': navigate('/projects'); break;
       case 'Publications': navigate('/publications'); break;
       case 'Team': navigate('/team'); break;
-      case 'News & Events': navigate('/news-events'); break;
+      case 'News': navigate('/news'); break;
+      case 'Events': navigate('/events'); break;
+      case 'Stories': navigate('/stories'); break;
       case 'Careers': navigate('/careers'); break;
       case 'About': navigate('/about'); break;
       case 'Contact': navigate('/contact'); break;
@@ -59,7 +69,7 @@ const AppWrapper: React.FC = () => {
 
   return (
     <>
-      <ScrollToTopOnRouteChange /> {/* Smooth scroll is applied here */}
+      <ScrollToTopOnRouteChange />
       <Layout activePage={activePage} onPageChange={handlePageChange}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -67,12 +77,20 @@ const AppWrapper: React.FC = () => {
           <Route path="/projects/:projectId" element={<ProjectDetail />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/team" element={<Team />} />
-          <Route path="/news-events" element={<NewsEvents />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:newsId" element={<NewsDetail />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:eventId" element={<EventDetail />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:storyId" element={<StoryDetail />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Layout>
+
+      {/* Add ScrollToTop here - it will be available on all pages */}
+      <ScrollToTop />
     </>
   );
 };

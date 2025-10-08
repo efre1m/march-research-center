@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
     activePage: string;
@@ -9,21 +10,34 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isResearchOpen, setIsResearchOpen] = useState(false);
+    const [isNewsEventsOpen, setIsNewsEventsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const menuItems = [
         'Home',
-        // 'Research' removed - replaced with dropdown
         'Team',
-        'News & Events',
         'Careers',
         'About',
         'Contact'
     ];
 
     const researchItems = [
-        'Projects',      // Formerly "Research"
+        'Projects',
         'Publications'
     ];
+
+    const newsEventsItems = [
+        { name: 'News', path: '/news' },
+        { name: 'Events', path: '/events' },
+        { name: 'Stories', path: '/stories' }
+    ];
+
+    const handleNewsEventsNavigation = (itemName: string, path: string) => {
+        onPageChange(itemName);
+        navigate(path);
+        setIsOpen(false);
+        setIsNewsEventsOpen(false);
+    };
 
     return (
         <>
@@ -116,6 +130,49 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
                       `}
                                     >
                                         {item}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* News & Events Dropdown */}
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsNewsEventsOpen(!isNewsEventsOpen)}
+                            className={`
+                w-full text-left px-6 py-4 rounded-xl transition-all duration-300
+                text-lg font-medium flex items-center justify-between
+                ${newsEventsItems.some(item => item.name === activePage)
+                                    ? 'bg-gold text-dark-blue font-semibold shadow-lg'
+                                    : 'text-white hover:bg-gold/10 hover:text-gold'
+                                }
+              `}
+                        >
+                            <span>What's New</span>
+                            <ChevronDown
+                                size={20}
+                                className={`transform transition-transform ${isNewsEventsOpen ? 'rotate-180' : ''}`}
+                            />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {isNewsEventsOpen && (
+                            <div className="mt-2 ml-4 space-y-2 border-l border-gold/20 pl-4">
+                                {newsEventsItems.map((item) => (
+                                    <button
+                                        key={item.name}
+                                        onClick={() => handleNewsEventsNavigation(item.name, item.path)}
+                                        className={`
+                        w-full text-left px-4 py-3 rounded-lg transition-all duration-300
+                        text-base font-medium
+                        ${activePage === item.name
+                                                ? 'bg-gold/20 text-gold border border-gold/30'
+                                                : 'text-white/80 hover:bg-gold/10 hover:text-gold'
+                                            }
+                      `}
+                                    >
+                                        {item.name}
                                     </button>
                                 ))}
                             </div>

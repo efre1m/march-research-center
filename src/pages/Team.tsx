@@ -1,135 +1,158 @@
 import React from 'react';
 import Heading from '../components/ui/Heading';
 import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import { useNavigate } from 'react-router-dom';
+import { fullTeamMembers } from '../data/teamdata';
 
 const Team: React.FC = () => {
-    const teamMembers = [
-        {
-            id: 1,
-            name: 'Dr. Sarah Chen',
-            role: 'Director & Senior MARCH Researcher',
-            department: 'MARCH Computing',
-            education: ['PhD in Physics, MIT', 'MSc in Computer Science, Stanford'],
-            expertise: ['MARCH Algorithms', 'MARCH Error Correction', 'MARCH Machine Learning'],
-            email: 's.chen@MARCHresearch.edu',
-            image: '/team/sarah-chen.jpg'
-        },
-        {
-            id: 2,
-            name: 'Dr. Michael Rodriguez',
-            role: 'Lead AI Research Scientist',
-            department: 'Artificial Intelligence',
-            education: ['PhD in Computer Science, Carnegie Mellon', 'MEng in Electrical Engineering, MIT'],
-            expertise: ['Machine Learning', 'Computer Vision', 'AI Ethics'],
-            email: 'm.rodriguez@MARCHresearch.edu',
-            image: '/team/michael-rodriguez.jpg'
-        },
-        {
-            id: 3,
-            name: 'Dr. Elena Petrova',
-            role: 'Senior Materials Scientist',
-            department: 'Materials Science',
-            education: ['PhD in Materials Science, Cambridge', 'MSc in Chemistry, ETH Zurich'],
-            expertise: ['2D Materials', 'Superconductors', 'Nanofabrication'],
-            email: 'e.petrova@MARCHresearch.edu',
-            image: '/team/elena-petrova.jpg'
-        },
-        {
-            id: 4,
-            name: 'Dr. James Wilson',
-            role: 'Biomedical Engineering Lead',
-            department: 'Biomedical Engineering',
-            education: ['PhD in Bioengineering, UC Berkeley', 'MD, Harvard Medical School'],
-            expertise: ['Neural Interfaces', 'Medical Devices', 'Drug Delivery'],
-            email: 'j.wilson@MARCHresearch.edu',
-            image: '/team/james-wilson.jpg'
-        },
-        {
-            id: 5,
-            name: 'Dr. Maria Gonzalez',
-            role: 'Energy Systems Researcher',
-            department: 'Renewable Energy',
-            education: ['PhD in Chemical Engineering, Caltech', 'MSc in Energy Science, TU Delft'],
-            expertise: ['Solar Cells', 'Energy Storage', 'Sustainable Tech'],
-            email: 'm.gonzalez@MARCHresearch.edu',
-            image: '/team/maria-gonzalez.jpg'
-        },
-        {
-            id: 6,
-            name: 'Dr. Robert Kim',
-            role: 'Climate Science Director',
-            department: 'Climate & Sustainability',
-            education: ['PhD in Environmental Science, Columbia', 'MSc in Climate Physics, Princeton'],
-            expertise: ['Climate Modeling', 'Carbon Capture', 'Sustainability'],
-            email: 'r.kim@MARCHresearch.edu',
-            image: '/team/robert-kim.jpg'
+    const navigate = useNavigate();
+
+    // Handle image error - fallback to gradient background
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement | HTMLDivElement, Event>) => {
+        const target = e.target as HTMLElement;
+        if (target.style.backgroundImage) {
+            target.style.backgroundImage = 'none';
+            target.classList.add('bg-gradient-to-br', 'from-gold/20', 'to-dark-blue');
+            const innerDiv = target.querySelector('div');
+            if (innerDiv) {
+                innerDiv.className = 'text-gold text-4xl';
+                if (target.classList.contains('rounded-full')) {
+                    innerDiv.textContent = target.getAttribute('data-initials') || 'DR';
+                } else {
+                    innerDiv.textContent = '👤';
+                }
+            }
         }
-    ];
+    };
 
     return (
-        <div className="space-y-8">
-            <div className="text-center mb-12">
-                <Heading level={1}>Our Team</Heading>
-                <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                    World-class researchers, scientists, and innovators dedicated to pushing the boundaries
-                    of knowledge and creating impactful solutions for global challenges.
-                </p>
-            </div>
+        <div className="space-y-16 animate-fadeIn">
+            {/* Breadcrumb Navigation */}
+            <section className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <Breadcrumb
+                        currentPage="Our Team"
+                        parentPage="Home"
+                        parentPath="/"
+                    />
+                </div>
+            </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {teamMembers.map((member) => (
-                    <Card key={member.id} className="text-center hover:transform hover:scale-105 transition-all duration-300">
-                        {/* Profile Image Placeholder */}
-                        <div className="w-32 h-32 bg-gradient-to-br from-gold/30 to-dark-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <div className="text-gold text-2xl font-bold">
-                                {member.name.split(' ').map(n => n[0]).join('')}
-                            </div>
-                        </div>
+            {/* Hero Header Section */}
+            <section className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="relative py-12 text-center border border-white/20 rounded-2xl bg-white/5 backdrop-blur-sm">
+                        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 rounded-2xl"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/10 to-transparent rounded-2xl"></div>
 
-                        <Heading level={3} className="text-xl mb-1">{member.name}</Heading>
-                        <div className="text-gold text-sm font-semibold mb-2">{member.role}</div>
-                        <div className="text-white/70 text-sm mb-4">{member.department}</div>
-
-                        <div className="space-y-3 text-left">
-                            <div>
-                                <div className="text-gold text-xs font-semibold mb-1">EDUCATION</div>
-                                {member.education.map((edu, index) => (
-                                    <div key={index} className="text-white/70 text-xs mb-1">{edu}</div>
-                                ))}
+                        <div className="relative z-10 px-6">
+                            <div className="inline-flex items-center gap-3 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full px-6 py-3 mb-8">
+                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                                <span className="text-gold text-sm font-semibold tracking-wider uppercase">
+                                    World-Class Research Team
+                                </span>
+                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
                             </div>
 
-                            <div>
-                                <div className="text-gold text-xs font-semibold mb-1">EXPERTISE</div>
-                                <div className="flex flex-wrap gap-1">
-                                    {member.expertise.map((skill, index) => (
-                                        <span key={index} className="text-white/70 text-xs bg-white/5 rounded px-2 py-1">
-                                            {skill}
-                                        </span>
-                                    ))}
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                                Meet Our <span className="text-gold">Expert</span>
+                                <br className="hidden lg:block" /> Research Team
+                            </h1>
+
+                            <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed">
+                                World-class researchers, scientists, and innovators dedicated to pushing the boundaries
+                                of knowledge and creating impactful solutions for global challenges.
+                            </p>
+
+                            <div className="flex flex-wrap justify-center gap-4 text-white/70 text-sm">
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                                    <span>Interdisciplinary Expertise</span>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                    <span>Global Research Network</span>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                    <span>Innovation-Driven Approach</span>
                                 </div>
                             </div>
-
-                            <div className="pt-2 border-t border-white/20">
-                                <div className="text-gold text-xs font-semibold">CONTACT</div>
-                                <div className="text-white/70 text-xs">{member.email}</div>
-                            </div>
                         </div>
-                    </Card>
-                ))}
-            </div>
+                    </div>
+                </div>
+            </section>
 
-            <div className="text-center mt-12">
-                <Card className="max-w-2xl mx-auto">
-                    <Heading level={3} className="mb-4">Join Our Team</Heading>
-                    <p className="text-white/70 mb-4">
-                        We're always looking for talented researchers and scientists to join our mission.
-                        Explore current opportunities and become part of our innovative team.
-                    </p>
-                    <button className="px-6 py-2 bg-gold text-dark-blue rounded-lg font-semibold hover:bg-[#e6c200] transition-colors">
-                        View Career Opportunities
-                    </button>
-                </Card>
-            </div>
+            {/* Team Grid Section */}
+            <section className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {fullTeamMembers.map((member, index) => (
+                            <Card
+                                key={member.id}
+                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden animate-fadeIn delay-${index * 100}`}
+                            >
+                                {/* Profile Image with fallback */}
+                                <div
+                                    className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-2 border-gold/30 group-hover:border-gold/50 transition-all duration-500 bg-cover bg-center transform group-hover:scale-110 flex items-center justify-center"
+                                    style={{ backgroundImage: `url(${member.image})` }}
+                                    onError={handleImageError}
+                                    data-initials={member.name.split(' ').map(n => n[0]).join('')}
+                                >
+                                    <div className="text-gold text-2xl font-bold opacity-0">
+                                        {member.name.split(' ').map(n => n[0]).join('')}
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-dark-blue/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                </div>
+
+                                <Heading level={3} className="text-xl mb-1 group-hover:text-gold transition-colors duration-300">
+                                    {member.name}
+                                </Heading>
+                                <div className="text-gold font-medium text-sm mb-2">{member.role}</div>
+                                <div className="text-white/70 text-sm mb-4">{member.department}</div>
+
+                                <div className="space-y-3 text-left">
+                                    <div>
+                                        <div className="text-gold text-xs font-semibold mb-1">EDUCATION</div>
+                                        {member.education.map((edu, index) => (
+                                            <div key={index} className="text-white/70 text-xs mb-1">{edu}</div>
+                                        ))}
+                                    </div>
+
+                                    <div className="pt-2 border-t border-white/20">
+                                        <div className="text-gold text-xs font-semibold">CONTACT</div>
+                                        <div className="text-white/70 text-xs">{member.email}</div>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Join Our Team Section */}
+            <section className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center">
+                        <Card className="max-w-2xl mx-auto p-8 group hover:transform hover:scale-[1.02] transition-all duration-500">
+                            <Heading level={3} className="mb-4 text-2xl">Join Our Team</Heading>
+                            <p className="text-white/70 mb-6 text-lg leading-relaxed">
+                                We're always looking for talented researchers and scientists to join our mission.
+                                Explore current opportunities and become part of our innovative team.
+                            </p>
+                            <Button
+                                variant="primary"
+                                className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                                onClick={() => navigate('/careers')}
+                            >
+                                View Career Opportunities
+                            </Button>
+                        </Card>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };
