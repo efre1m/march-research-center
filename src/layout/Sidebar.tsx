@@ -16,7 +16,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
     const menuItems = [
         'Home',
         'Team',
-        'Careers',
         'About',
         'Contact'
     ];
@@ -29,7 +28,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
     const newsEventsItems = [
         { name: 'News', path: '/news' },
         { name: 'Events', path: '/events' },
-        { name: 'Stories', path: '/stories' }
+        { name: 'Stories', path: '/stories' },
+        { name: 'Careers', path: '/careers' } // Added Careers to What's New
     ];
 
     const handleNewsEventsNavigation = (itemName: string, path: string) => {
@@ -58,14 +58,13 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         lg:translate-x-0 lg:static lg:inset-auto
       `}>
-                {/* Logo */}
-                <div className="p-8 border-b border-gold/30">
-                    <div className="text-3xl font-bold text-gold text-center">
-                        MARCH Research Center
-                    </div>
-                    <div className="text-white/70 text-sm text-center mt-2">
-                        Advancing Scientific Frontiers
-                    </div>
+                {/* Logo Section - Only the image */}
+                <div className="border-b border-gold/30">
+                    <img
+                        src="/images/logo/LOGO.jpg"
+                        alt="MARCH Research Center"
+                        className="w-full h-auto"
+                    />
                 </div>
 
                 {/* Navigation Items */}
@@ -136,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
                         )}
                     </div>
 
-                    {/* News & Events Dropdown */}
+                    {/* What's New Dropdown */}
                     <div className="relative">
                         <button
                             onClick={() => setIsNewsEventsOpen(!isNewsEventsOpen)}

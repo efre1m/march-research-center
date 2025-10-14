@@ -1,242 +1,180 @@
-import React from 'react';
-import Heading from '../components/ui/Heading';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MapPin, Building2, Briefcase, Search, Clock } from 'lucide-react';
+import SectionHeader from '../components/ui/SectionHeader';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import { vacancies, type VacancyItem } from '../data/vacancydata';
 
 const Careers: React.FC = () => {
-    const jobOpenings = [
-        {
-            id: 1,
-            title: 'Senior MARCH Research Scientist',
-            department: 'MARCH Computing',
-            location: 'San Francisco, CA',
-            type: 'Full-time',
-            level: 'Senior',
-            description: 'Lead research in MARCH algorithm development and error correction for next-generation MARCH computers.',
-            requirements: [
-                'PhD in Physics, Computer Science, or related field',
-                '5+ years experience in MARCH computing research',
-                'Strong publication record in top-tier journals',
-                'Experience with MARCH programming languages (Qiskit, Cirq)'
-            ],
-            posted: '2024-12-01',
-            applicationDeadline: '2025-01-15'
-        },
-        {
-            id: 2,
-            title: 'Machine Learning Engineer',
-            department: 'Artificial Intelligence',
-            location: 'Remote / Boston, MA',
-            type: 'Full-time',
-            level: 'Mid-level',
-            description: 'Develop and implement machine learning models for scientific discovery and research applications.',
-            requirements: [
-                'MSc or PhD in Computer Science, AI, or related field',
-                '3+ years experience with deep learning frameworks',
-                'Strong Python programming skills',
-                'Experience with large-scale data processing'
-            ],
-            posted: '2024-12-10',
-            applicationDeadline: '2025-01-31'
-        },
-        {
-            id: 3,
-            title: 'Materials Science Postdoctoral Researcher',
-            department: 'Materials Science',
-            location: 'Cambridge, MA',
-            type: 'Contract',
-            level: 'Postdoctoral',
-            description: 'Investigate novel 2D materials and their applications in MARCH devices and energy storage.',
-            requirements: [
-                'PhD in Materials Science, Physics, or Chemistry',
-                'Experience with materials characterization techniques',
-                'Knowledge of MARCH materials preferred',
-                'Strong experimental and analytical skills'
-            ],
-            posted: '2024-12-05',
-            applicationDeadline: '2025-01-20'
-        },
-        {
-            id: 4,
-            title: 'Biomedical Engineering Research Assistant',
-            department: 'Biomedical Engineering',
-            location: 'San Diego, CA',
-            type: 'Full-time',
-            level: 'Entry-level',
-            description: 'Support research in neural interfaces and medical device development for healthcare applications.',
-            requirements: [
-                'BSc or MSc in Biomedical Engineering or related field',
-                'Experience with medical device prototyping',
-                'Knowledge of signal processing',
-                'Strong laboratory skills'
-            ],
-            posted: '2024-12-12',
-            applicationDeadline: '2025-02-01'
-        },
-        {
-            id: 5,
-            title: 'Renewable Energy Research Scientist',
-            department: 'Renewable Energy',
-            location: 'Boulder, CO',
-            type: 'Full-time',
-            level: 'Mid-level',
-            description: 'Research and develop advanced solar cell technologies and energy storage systems.',
-            requirements: [
-                'PhD in Chemical Engineering, Materials Science, or related field',
-                '3+ years experience in renewable energy research',
-                'Knowledge of photovoltaic technologies',
-                'Experience with materials synthesis and characterization'
-            ],
-            posted: '2024-12-08',
-            applicationDeadline: '2025-01-25'
-        }
-    ];
+    const [filteredVacancies, setFilteredVacancies] = useState<VacancyItem[]>([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [locationFilter, setLocationFilter] = useState("All");
+    const [departmentFilter, setDepartmentFilter] = useState("All");
+    const [jobTypeFilter, setJobTypeFilter] = useState("All");
+    const navigate = useNavigate();
 
-    const benefits = [
-        {
-            title: 'Competitive Compensation',
-            description: 'Industry-leading salary and comprehensive benefits package'
-        },
-        {
-            title: 'Research Freedom',
-            description: 'Autonomy to pursue innovative research directions and ideas'
-        },
-        {
-            title: 'State-of-the-Art Facilities',
-            description: 'Access to cutting-edge laboratories and computational resources'
-        },
-        {
-            title: 'Collaborative Environment',
-            description: 'Work with world-class researchers across multiple disciplines'
-        },
-        {
-            title: 'Professional Development',
-            description: 'Funding for conferences, workshops, and continuous learning'
-        },
-        {
-            title: 'Work-Life Balance',
-            description: 'Flexible working arrangements and generous vacation time'
-        }
-    ];
+    useEffect(() => {
+        // Filter vacancies based on search and filters
+        const filtered = vacancies.filter((vacancy) => {
+            const matchesSearch = `${vacancy.title} ${vacancy.location} ${vacancy.department}`
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase());
+            const matchesLocation = locationFilter === "All" || vacancy.location === locationFilter;
+            const matchesDepartment = departmentFilter === "All" || vacancy.department === departmentFilter;
+            const matchesJobType = jobTypeFilter === "All" || vacancy.jobType === jobTypeFilter;
+            return matchesSearch && matchesLocation && matchesDepartment && matchesJobType;
+        });
+        setFilteredVacancies(filtered);
+    }, [searchTerm, locationFilter, departmentFilter, jobTypeFilter]);
+
+    const uniqueLocations = Array.from(new Set(vacancies.map((v) => v.location)));
+    const uniqueDepartments = Array.from(new Set(vacancies.map((v) => v.department)));
+    const uniqueJobTypes = Array.from(new Set(vacancies.map((v) => v.jobType)));
+
+    const handleApply = (vacancyId: number, title: string) => {
+        navigate(`/apply?vacancyId=${vacancyId}&title=${encodeURIComponent(title)}`);
+    };
 
     return (
-        <div className="space-y-12">
-            <div className="text-center">
-                <Heading level={1}>Careers at MARCH Research Center</Heading>
-                <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
-                    Join our mission to advance scientific knowledge and create technologies that shape the future.
-                    Explore opportunities to work with leading researchers in a collaborative, innovative environment.
-                </p>
-                <Button variant="primary">
-                    View All Open Positions
-                </Button>
-            </div>
+        <div className="min-h-screen py-8">
+            <div className="max-w-7xl mx-auto px-6">
+                <SectionHeader
+                    title="Join Our Team"
+                    subtitle="Explore career opportunities at MARCH Research Center and be part of our mission to transform maternal healthcare"
+                    variant="modern"
+                />
 
-            {/* Current Openings */}
-            <section>
-                <Heading level={2}>Current Job Openings</Heading>
-                <div className="space-y-6">
-                    {jobOpenings.map((job) => (
-                        <Card key={job.id} className="hover:bg-white/15 transition-all duration-300">
-                            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                                <div className="flex-1">
-                                    <div className="flex flex-wrap items-center gap-4 mb-3">
-                                        <Heading level={3} className="text-xl text-white">
-                                            {job.title}
-                                        </Heading>
-                                        <span className="px-3 py-1 bg-gold text-dark-blue text-sm font-semibold rounded-full">
-                                            {job.level}
-                                        </span>
+                {/* Search and Filters */}
+                <Card className="p-6 mb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                        <div className="lg:col-span-2 relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gold" size={20} />
+                            <input
+                                type="text"
+                                placeholder="Search by title, location or department..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-10 pr-4 py-3 bg-dark-blue border border-gold/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-gold"
+                            />
+                        </div>
+
+                        <select
+                            value={locationFilter}
+                            onChange={(e) => setLocationFilter(e.target.value)}
+                            className="px-4 py-3 bg-dark-blue border border-gold/30 rounded-lg text-white focus:outline-none focus:border-gold"
+                        >
+                            <option value="All">All Locations</option>
+                            {uniqueLocations.map(loc => (
+                                <option key={loc} value={loc}>{loc}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            value={departmentFilter}
+                            onChange={(e) => setDepartmentFilter(e.target.value)}
+                            className="px-4 py-3 bg-dark-blue border border-gold/30 rounded-lg text-white focus:outline-none focus:border-gold"
+                        >
+                            <option value="All">All Departments</option>
+                            {uniqueDepartments.map(dept => (
+                                <option key={dept} value={dept}>{dept}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            value={jobTypeFilter}
+                            onChange={(e) => setJobTypeFilter(e.target.value)}
+                            className="px-4 py-3 bg-dark-blue border border-gold/30 rounded-lg text-white focus:outline-none focus:border-gold"
+                        >
+                            <option value="All">All Job Types</option>
+                            {uniqueJobTypes.map(type => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                    </div>
+                </Card>
+
+                {/* Vacancies Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {filteredVacancies.length > 0 ? (
+                        filteredVacancies.map((job) => (
+                            <Card key={job.id} className="group hover:transform hover:scale-[1.02] transition-all duration-500">
+                                <div className="p-6">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${job.vacancyStatus === 'opened'
+                                                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                    : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                                                    }`}>
+                                                    {job.vacancyStatus}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-gold transition-colors duration-300">
+                                                {job.title}
+                                            </h3>
+                                        </div>
                                     </div>
 
-                                    <div className="flex flex-wrap gap-4 mb-4 text-sm">
+                                    <div className="space-y-2 mb-4">
                                         <div className="flex items-center gap-2 text-white/70">
-                                            <span>🏢</span>
+                                            <Building2 size={16} />
                                             <span>{job.department}</span>
                                         </div>
                                         <div className="flex items-center gap-2 text-white/70">
-                                            <span>📍</span>
+                                            <MapPin size={16} />
                                             <span>{job.location}</span>
                                         </div>
                                         <div className="flex items-center gap-2 text-white/70">
-                                            <span>⏱️</span>
-                                            <span>{job.type}</span>
+                                            <Briefcase size={16} />
+                                            <span>{job.jobType}</span>
                                         </div>
                                         <div className="flex items-center gap-2 text-white/70">
-                                            <span>📅</span>
-                                            <span>Apply by {new Date(job.applicationDeadline).toLocaleDateString()}</span>
+                                            <Clock size={16} />
+                                            <span>Apply by: {new Date(job.deadline).toLocaleDateString()}</span>
                                         </div>
                                     </div>
 
-                                    <p className="text-white/70 mb-4 leading-relaxed">
+                                    <p className="text-white/80 text-sm mb-6 leading-relaxed">
                                         {job.description}
                                     </p>
 
-                                    <div className="mb-4">
-                                        <div className="text-gold font-semibold mb-2">Key Requirements:</div>
-                                        <ul className="text-white/70 text-sm space-y-1">
-                                            {job.requirements.map((req, index) => (
-                                                <li key={index} className="flex items-start gap-2">
-                                                    <span>•</span>
-                                                    <span>{req}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div className="lg:w-48 flex flex-col gap-2">
-                                    <Button variant="primary" className="w-full">
-                                        Apply Now
+                                    <Button
+                                        variant="primary"
+                                        className="w-full py-3"
+                                        onClick={() => handleApply(job.id, job.title)}
+                                        disabled={job.vacancyStatus === 'closed'}
+                                    >
+                                        {job.vacancyStatus === 'opened' ? 'Apply Now' : 'Position Closed'}
                                     </Button>
-                                    <Button variant="secondary" className="w-full">
-                                        Save Job
-                                    </Button>
-                                    <button className="text-gold text-sm hover:underline text-center">
-                                        View Details
-                                    </button>
                                 </div>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-            </section>
-
-            {/* Benefits Section */}
-            <section>
-                <Heading level={2}>Why Work With Us</Heading>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {benefits.map((benefit, index) => (
-                        <Card key={index} className="text-center hover:transform hover:scale-105 transition-all duration-300">
-                            <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <div className="text-gold text-2xl font-bold">{index + 1}</div>
-                            </div>
-                            <Heading level={4} className="mb-3">{benefit.title}</Heading>
-                            <p className="text-white/70 text-sm leading-relaxed">
-                                {benefit.description}
+                            </Card>
+                        ))
+                    ) : (
+                        <Card className="col-span-2 text-center p-12">
+                            <div className="text-gold text-6xl mb-4">📋</div>
+                            <h3 className="text-2xl font-bold text-white mb-4">No Vacancies Found</h3>
+                            <p className="text-white/70 mb-6">
+                                {searchTerm || locationFilter !== 'All' || departmentFilter !== 'All' || jobTypeFilter !== 'All'
+                                    ? "No vacancies match your current filters. Try adjusting your search criteria."
+                                    : "There are currently no open positions. Please check back later for new opportunities."
+                                }
                             </p>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    setSearchTerm('');
+                                    setLocationFilter('All');
+                                    setDepartmentFilter('All');
+                                    setJobTypeFilter('All');
+                                }}
+                            >
+                                Clear Filters
+                            </Button>
                         </Card>
-                    ))}
+                    )}
                 </div>
-            </section>
-
-            {/* Student Opportunities */}
-            <Card className="max-w-4xl mx-auto text-center">
-                <Heading level={3} className="mb-4">Student & Internship Opportunities</Heading>
-                <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-                    We offer various programs for students and recent graduates, including summer internships,
-                    research assistantships, and graduate fellowships. Gain hands-on experience working on
-                    cutting-edge research projects.
-                </p>
-                <div className="flex gap-4 justify-center flex-wrap">
-                    <Button variant="primary">
-                        View Internship Programs
-                    </Button>
-                    <Button variant="secondary">
-                        Graduate Fellowships
-                    </Button>
-                </div>
-            </Card>
+            </div>
         </div>
     );
 };

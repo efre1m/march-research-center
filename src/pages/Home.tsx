@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SectionHeader from '../components/ui/SectionHeader';
 import Card from '../components/ui/Card';
@@ -8,15 +8,60 @@ import { coreTeamMembers } from '../data/teamdata';
 import { newsItems } from '../data/newsdata';
 import { events } from '../data/eventsdata';
 import { stories } from '../data/storiesdata';
+import { vacancies } from '../data/vacancydata'; // Import vacancies data
 
-interface HomeProps {
-    // Remove onNavigate prop since we're using useNavigate
-}
+interface HomeProps { }
+
+const AnimatedCounter: React.FC<{ target: number; duration?: number; suffix?: string }> = ({
+    target,
+    duration = 2000,
+    suffix = ''
+}) => {
+    const [count, setCount] = useState(0);
+    const [hasStarted, setHasStarted] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !hasStarted) {
+                    setHasStarted(true);
+                    let start = 0;
+                    const increment = target / (duration / 16);
+
+                    const timer = setInterval(() => {
+                        start += increment;
+                        if (start >= target) {
+                            setCount(target);
+                            clearInterval(timer);
+                        } else {
+                            setCount(Math.floor(start));
+                        }
+                    }, 16);
+
+                    return () => clearInterval(timer);
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => observer.disconnect();
+    }, [target, duration, hasStarted]);
+
+    return (
+        <div ref={ref} className="animated-counter">
+            {count}{suffix}
+        </div>
+    );
+};
 
 const Home: React.FC<HomeProps> = () => {
     const navigate = useNavigate();
 
-    // Hero Slider Images and Data
     const heroSlides = [
         {
             id: 1,
@@ -50,7 +95,6 @@ const Home: React.FC<HomeProps> = () => {
         }
     };
 
-    // Enhanced navigation handler with smooth transitions
     const handleNavigation = (path: string) => {
         const mainContent = document.querySelector('main');
         if (mainContent) {
@@ -69,7 +113,10 @@ const Home: React.FC<HomeProps> = () => {
         }, 600);
     };
 
-    // Handle image error - fallback to gradient background
+    const handleApply = (vacancyId: number, title: string) => {
+        navigate(`/apply?vacancyId=${vacancyId}&title=${encodeURIComponent(title)}`);
+    };
+
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement | HTMLDivElement, Event>) => {
         const target = e.target as HTMLElement;
         if (target.style.backgroundImage) {
@@ -87,7 +134,6 @@ const Home: React.FC<HomeProps> = () => {
         }
     };
 
-    // Handle section header click - scroll to section with zigzag animation
     const handleSectionClick = (sectionId: string) => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -98,71 +144,101 @@ const Home: React.FC<HomeProps> = () => {
         }
     };
 
+    // Get open vacancies for display
+    const openVacancies = vacancies.filter(v => v.vacancyStatus === 'opened').slice(0, 2);
+
     return (
         <div className="space-y-16 animate-fadeIn">
-            {/* Scroll to Top Button */}
-            {/* <ScrollToTop /> */}
-
-            {/* Hero Header Section */}
-            <section className="animate-slideUp">
+            <section className="relative animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
-                    {/* Main Hero Header with matching section width */}
-                    <div className="relative py-12 text-center border border-white/20 rounded-2xl bg-white/5 backdrop-blur-sm">
-                        {/* Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 rounded-2xl"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/10 to-transparent rounded-2xl"></div>
+                    <div className="relative rounded-2xl overflow-hidden border border-white/20 bg-dark-blue/90 backdrop-blur-sm">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+                            style={{
+                                backgroundImage: 'url(/images/overview/medical.png)',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center 30%'
+                            }}
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-dark-blue/70 via-dark-blue/30 to-dark-blue/10"></div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-dark-blue/20"></div>
+                        </div>
 
-                        {/* Content */}
-                        <div className="relative z-10 px-6">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-3 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full px-6 py-3 mb-8">
+                        <div className="relative z-10 p-8 lg:p-12">
+                            <div className="inline-flex items-center gap-3 bg-gold/20 backdrop-blur-sm border border-gold/40 rounded-full px-6 py-3 mb-8">
                                 <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
                                 <span className="text-gold text-sm font-semibold tracking-wider uppercase">
-                                    Excellence in Maternal Health Research
+                                    Center for Maternal Health Innovation
                                 </span>
                                 <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
                             </div>
 
-                            {/* Main Title */}
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                                Transforming <span className="text-gold">Global Maternal</span>
-                                <br className="hidden lg:block" /> Healthcare Through Innovation
-                            </h1>
-
-                            {/* Subtitle */}
-                            <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed">
-                                Pioneering evidence-based research and innovative technologies to improve
-                                maternal and child health outcomes in underserved communities worldwide.
-                            </p>
-
-                            {/* Feature Indicators */}
-                            <div className="flex flex-wrap justify-center gap-4 text-white/70 text-sm">
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                    <span>Evidence-Based Research</span>
+                            <div className="max-w-3xl">
+                                <div className="space-y-4 mb-8">
+                                    <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                                        Transforming <span className="text-gold">Maternal Healthcare</span> Through Cutting-Edge Research & Innovation
+                                    </h1>
+                                    <div className="w-20 h-1 bg-gradient-to-r from-gold to-transparent rounded-full"></div>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                    <span>Global Partnerships</span>
+
+                                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 hover:border-gold/30 transition-all duration-300 mb-8">
+                                    <p className="text-white/90 text-lg leading-relaxed">
+                                        We are dedicated to revolutionizing maternal and child health outcomes through evidence-based research,
+                                        innovative technologies, and community-centered interventions that address healthcare disparities worldwide.
+                                        Our vision encompasses a world where every mother and child, regardless of location or socioeconomic status,
+                                        has access to quality healthcare and the opportunity to thrive through sustainable, scalable health solutions.
+                                        Guided by our core values of evidence-based research, global partnerships, community-centered approaches,
+                                        and innovation excellence, we pioneer cutting-edge technologies and methodologies to solve complex health
+                                        challenges in underserved communities across the globe.
+                                    </p>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                                    <span>Community-Centered Solutions</span>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                    {[
+                                        { number: 50, label: 'Research Projects', suffix: '+' },
+                                        { number: 25, label: 'Countries', suffix: '+' },
+                                        { number: 100, label: 'Lives Impacted', suffix: 'K+' },
+                                        { number: 15, label: 'Years Excellence', suffix: '+' }
+                                    ].map((stat, index) => (
+                                        <div
+                                            key={index}
+                                            className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20 hover:border-white/40 transition-all duration-300 group"
+                                        >
+                                            <div className={`text-2xl font-bold bg-gradient-to-r from-gold to-gold/80 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300`}>
+                                                <AnimatedCounter
+                                                    target={stat.number}
+                                                    duration={2500}
+                                                    suffix={stat.suffix}
+                                                />
+                                            </div>
+                                            <div className="text-white/80 text-sm mt-2 font-medium">{stat.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="pt-4">
+                                    <Button
+                                        variant="primary"
+                                        className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-gold to-gold/80 hover:from-gold/90 hover:to-gold/70 text-dark-blue font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                                        onClick={() => handleNavigation('/about')}
+                                    >
+                                        Discover Our Full Story
+                                    </Button>
                                 </div>
                             </div>
                         </div>
+
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent z-10"></div>
                     </div>
                 </div>
             </section>
 
-            {/* Hero Section with Image Slider */}
             <section className="relative animate-fadeIn">
                 <div className="max-w-7xl mx-auto px-6">
                     <ImageSlider slides={heroSlides} autoPlay={true} interval={6000} />
                 </div>
             </section>
 
-            {/* Latest News Section */}
             <section id="latest-news" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -175,7 +251,6 @@ const Home: React.FC<HomeProps> = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {newsItems.slice(0, 3).map((news) => (
                             <Card key={news.id} className={`group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col animate-fadeIn`}>
-                                {/* Image with fallback */}
                                 <div
                                     className="relative h-48 overflow-hidden rounded-t-lg bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 flex items-center justify-center"
                                     style={{ backgroundImage: `url(${news.image})` }}
@@ -214,72 +289,137 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
-            {/* Upcoming Events Section */}
-            <section id="upcoming-events" className="animate-slideUp">
+            <section id="events-announcements" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
-                        title="Upcoming Events"
-                        subtitle="Join our knowledge-sharing sessions, training programs, and collaborative events"
+                        title="Events & Announcements"
+                        subtitle="Stay updated with our latest events, job opportunities, and important announcements"
                         variant="elegant"
-                        onClick={() => handleSectionClick('upcoming-events')}
+                        onClick={() => handleSectionClick('events-announcements')}
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {events.slice(0, 2).map((event) => (
-                            <Card key={event.id} className={`group hover:transform hover:scale-[1.01] transition-all duration-500 overflow-hidden animate-fadeIn`}>
-                                <div className="flex flex-col md:flex-row gap-6">
-                                    <div className="md:w-2/5">
-                                        <div
-                                            className="relative h-48 md:h-full rounded-lg overflow-hidden bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 flex items-center justify-center"
-                                            style={{ backgroundImage: `url(${event.image})` }}
-                                            onError={handleImageError}
-                                            data-initials={event.title.split(' ').map(word => word[0]).join('').slice(0, 2)}
-                                        >
-                                            <div className="text-gold text-4xl opacity-0">🎪</div>
-                                            <div className="absolute inset-0 bg-gradient-to-t from-dark-blue/70 to-transparent md:bg-gradient-to-r md:from-dark-blue/70 md:to-transparent" />
-                                        </div>
-                                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* Upcoming Events */}
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-2xl font-bold text-white">Upcoming Events</h3>
+                                <span className="text-gold text-sm font-semibold">{events.filter(e => e.status === 'upcoming').length} Events</span>
+                            </div>
 
-                                    <div className="md:w-3/5 p-1 md:p-0 md:pr-2 flex flex-col justify-center">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <div className="text-gold font-semibold text-sm">{event.date}</div>
-                                            <span className={`text-xs font-semibold px-3 py-1.5 rounded-full ${getStatusColor(event.status)} transition-colors duration-300`}>
-                                                {event.status}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-gold transition-colors duration-300 leading-tight">
-                                            {event.title}
-                                        </h3>
-
-                                        <div className="space-y-2 text-sm mb-4">
-                                            <div className="flex items-center gap-3 text-white/70">
-                                                <span className="w-4">🕒</span>
-                                                <span>{event.time}</span>
+                            <div className="space-y-4">
+                                {events.slice(0, 2).map((event) => (
+                                    <Card key={event.id} className="group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden">
+                                        <div className="flex gap-4">
+                                            <div className="flex-shrink-0">
+                                                <div
+                                                    className="w-20 h-20 rounded-lg bg-cover bg-center"
+                                                    style={{ backgroundImage: `url(${event.image})` }}
+                                                    onError={handleImageError}
+                                                />
                                             </div>
-                                            <div className="flex items-center gap-3 text-white/70">
-                                                <span className="w-4">📍</span>
-                                                <span className="line-clamp-1">{event.location}</span>
+                                            <div className="flex-1">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="text-gold font-semibold text-sm">{event.date}</div>
+                                                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getStatusColor(event.status)}`}>
+                                                        {event.status}
+                                                    </span>
+                                                </div>
+                                                <h4 className="text-white font-semibold mb-2 group-hover:text-gold transition-colors duration-300">
+                                                    {event.title}
+                                                </h4>
+                                                <div className="flex items-center gap-2 text-white/70 text-sm">
+                                                    <span>📍</span>
+                                                    <span>{event.location}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
+                                    </Card>
+                                ))}
+                            </div>
 
-                    <div className="text-center mt-8">
-                        <Button
-                            variant="secondary"
-                            className="px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg border-gold/50"
-                            onClick={() => handleNavigation('/events')}
-                        >
-                            View All Events
-                        </Button>
+                            <Button
+                                variant="secondary"
+                                className="w-full py-3 transition-all duration-300 hover:scale-105"
+                                onClick={() => handleNavigation('/events')}
+                            >
+                                View All Events
+                            </Button>
+                        </div>
+
+                        {/* Job Vacancies */}
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-2xl font-bold text-white">Job Opportunities</h3>
+                                <span className="text-gold text-sm font-semibold">{openVacancies.length} Open Positions</span>
+                            </div>
+
+                            <div className="space-y-4">
+                                {openVacancies.map((job) => (
+                                    <Card key={job.id} className="group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden">
+                                        <div className="flex justify-between items-start">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${job.vacancyStatus === 'opened'
+                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                        : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                                                        }`}>
+                                                        {job.vacancyStatus}
+                                                    </span>
+                                                </div>
+                                                <h4 className="text-white font-semibold mb-2 group-hover:text-gold transition-colors duration-300">
+                                                    {job.title}
+                                                </h4>
+                                                <div className="space-y-1 text-sm text-white/70">
+                                                    <div className="flex items-center gap-2">
+                                                        <span>🏢</span>
+                                                        <span>{job.department}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span>📍</span>
+                                                        <span>{job.location}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span>⏱️</span>
+                                                        <span>{job.jobType}</span>
+                                                    </div>
+                                                </div>
+                                                <p className="text-white/80 text-sm mt-3 line-clamp-2">
+                                                    {job.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2 mt-4">
+                                            <Button
+                                                variant="primary"
+                                                className="flex-1 py-2 text-sm"
+                                                onClick={() => handleNavigation('/careers')}
+                                            >
+                                                View Details
+                                            </Button>
+                                            <Button
+                                                variant="secondary"
+                                                className="flex-1 py-2 text-sm"
+                                                onClick={() => handleApply(job.id, job.title)}
+                                            >
+                                                Apply Now
+                                            </Button>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+
+                            <Button
+                                variant="secondary"
+                                className="w-full py-3 transition-all duration-300 hover:scale-105"
+                                onClick={() => handleNavigation('/careers')}
+                            >
+                                View All Opportunities
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Impact Stories Section */}
             <section id="impact-stories" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -344,7 +484,6 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
-            {/* Leadership Team Section */}
             <section id="leadership-team" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -360,7 +499,6 @@ const Home: React.FC<HomeProps> = () => {
                                 key={member.id}
                                 className={`text-center group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden animate-fadeIn`}
                             >
-                                {/* Circular Profile Image with fallback */}
                                 <div
                                     className="relative w-28 h-28 mx-auto mb-6 rounded-full overflow-hidden border-2 border-gold/30 group-hover:border-gold/50 transition-all duration-500 bg-cover bg-center transform group-hover:scale-110 flex items-center justify-center"
                                     style={{ backgroundImage: `url(${member.image})` }}
@@ -373,7 +511,6 @@ const Home: React.FC<HomeProps> = () => {
                                     <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-dark-blue/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
 
-                                {/* Member Info */}
                                 <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-gold transition-colors duration-300">
                                     {member.name}
                                 </h3>
@@ -403,60 +540,6 @@ const Home: React.FC<HomeProps> = () => {
                         >
                             Explore Full Team Directory
                         </Button>
-                    </div>
-                </div>
-            </section>
-
-            {/* Quick Links Section */}
-            <section className="animate-slideUp">
-                <div className="max-w-7xl mx-auto px-6">
-                    <SectionHeader
-                        title="Explore Our Initiatives"
-                        subtitle="Discover our comprehensive approach to maternal and child health innovation"
-                        variant="slanted"
-                    />
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {[
-                            {
-                                icon: '🔬',
-                                title: 'Research Programs',
-                                path: '/projects',
-                                description: 'Explore our groundbreaking studies and clinical trials advancing maternal healthcare worldwide.'
-                            },
-                            {
-                                icon: '🌍',
-                                title: 'Global Impact',
-                                path: '/about',
-                                description: 'See how our programs are transforming healthcare delivery in communities across the globe.'
-                            },
-                            {
-                                icon: '🤝',
-                                title: 'Collaborate With Us',
-                                path: '/contact',
-                                description: 'Join our mission through partnerships, research collaborations, and career opportunities.'
-                            }
-                        ].map((link) => (
-                            <Card
-                                key={link.title}
-                                className={`text-center group hover:transform hover:scale-105 transition-all duration-500 p-8 animate-fadeIn`}
-                            >
-                                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">{link.icon}</div>
-                                <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-gold transition-colors duration-300">
-                                    {link.title}
-                                </h3>
-                                <p className="text-white/70 text-sm mb-6 leading-relaxed">
-                                    {link.description}
-                                </p>
-                                <Button
-                                    variant="primary"
-                                    className="w-full py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                                    onClick={() => handleNavigation(link.path)}
-                                >
-                                    Explore {link.title}
-                                </Button>
-                            </Card>
-                        ))}
                     </div>
                 </div>
             </section>

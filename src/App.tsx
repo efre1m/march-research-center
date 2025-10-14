@@ -1,4 +1,3 @@
-// App.tsx
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Layout from './layout/Layout';
 import Home from './pages/Home';
@@ -13,6 +12,7 @@ import EventDetail from './pages/EventDetail';
 import Stories from './pages/Stories';
 import StoryDetail from './pages/StoryDetail';
 import Careers from './pages/Careers';
+import Apply from './pages/Apply';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ScrollToTop from './components/ui/ScrollToTop';
@@ -44,6 +44,7 @@ const AppWrapper: React.FC = () => {
     if (path.startsWith('/events')) return 'Events';
     if (path.startsWith('/stories')) return 'Stories';
     if (path.startsWith('/careers')) return 'Careers';
+    if (path.startsWith('/apply')) return 'Careers'; // Apply page should highlight Careers
     if (path.startsWith('/about')) return 'About';
     if (path.startsWith('/contact')) return 'Contact';
     return 'Home';
@@ -64,6 +65,7 @@ const AppWrapper: React.FC = () => {
       case 'Careers': navigate('/careers'); break;
       case 'About': navigate('/about'); break;
       case 'Contact': navigate('/contact'); break;
+      default: break;
     }
   };
 
@@ -84,6 +86,7 @@ const AppWrapper: React.FC = () => {
           <Route path="/stories" element={<Stories />} />
           <Route path="/stories/:storyId" element={<StoryDetail />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/apply" element={<Apply />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
