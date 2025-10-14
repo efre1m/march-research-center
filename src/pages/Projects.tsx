@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Heading from '../components/ui/Heading';
-import Card from '../components/ui/Card';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import { researchAreas, type Project } from '../data/projectdata';
 
@@ -28,10 +27,10 @@ const Projects: React.FC = () => {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'Active': return 'bg-green-500/20 text-green-400 border border-green-500/30';
-            case 'Completed': return 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
-            case 'Planning': return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-            default: return 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
+            case 'Active': return 'bg-green-500/20 text-green-600 border border-green-500/30';
+            case 'Completed': return 'bg-blue-500/20 text-blue-600 border border-blue-500/30';
+            case 'Planning': return 'bg-yellow-500/20 text-yellow-600 border border-yellow-500/30';
+            default: return 'bg-gray-500/20 text-gray-600 border border-gray-500/30';
         }
     };
 
@@ -50,7 +49,7 @@ const Projects: React.FC = () => {
     };
 
     return (
-        <div className="space-y-16 animate-fadeIn">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 space-y-16 py-12 animate-fadeIn">
             {/* Breadcrumb Navigation */}
             <section className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
@@ -65,40 +64,40 @@ const Projects: React.FC = () => {
             {/* Hero Header Section */}
             <section className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="relative py-12 text-center border border-white/20 rounded-2xl bg-white/5 backdrop-blur-sm">
-                        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 rounded-2xl"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/10 to-transparent rounded-2xl"></div>
+                    <div className="relative py-16 text-center border border-blue-200 rounded-2xl bg-white/80 backdrop-blur-lg">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-transparent to-blue-600/10 rounded-2xl"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-2xl"></div>
 
                         <div className="relative z-10 px-6">
-                            <div className="inline-flex items-center gap-3 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full px-6 py-3 mb-8">
-                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
-                                <span className="text-gold text-sm font-semibold tracking-wider uppercase">
+                            <div className="inline-flex items-center gap-3 bg-blue-500/10 backdrop-blur-sm border border-blue-400/30 rounded-full px-6 py-3 mb-8">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span className="text-blue-600 text-sm font-semibold tracking-wider uppercase">
                                     Cutting-Edge Research
                                 </span>
-                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                             </div>
 
-                            <Heading level={1} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                                Our <span className="text-gold">Research</span>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                                Our <span className="text-blue-600">Research</span>
                                 <br className="hidden lg:block" /> Projects & Initiatives
-                            </Heading>
+                            </h1>
 
-                            <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed">
+                            <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed text-justify">
                                 Explore our innovative research programs that are pushing the boundaries of knowledge
                                 and creating real-world impact across multiple scientific disciplines.
                             </p>
 
-                            <div className="flex flex-wrap justify-center gap-4 text-white/70 text-sm">
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <div className="flex flex-wrap justify-center gap-4 text-gray-600 text-sm">
+                                <div className="flex items-center gap-2 bg-white/80 rounded-full px-4 py-2 border border-blue-200">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                     <span>Interdisciplinary Research</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <div className="flex items-center gap-2 bg-white/80 rounded-full px-4 py-2 border border-blue-200">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     <span>Real-World Impact</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
-                                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                <div className="flex items-center gap-2 bg-white/80 rounded-full px-4 py-2 border border-blue-200">
+                                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                                     <span>Global Collaborations</span>
                                 </div>
                             </div>
@@ -111,21 +110,21 @@ const Projects: React.FC = () => {
             <section className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 gap-8">
-                        {researchAreas.map((project: Project, index) => {
+                        {researchAreas.map((project: Project) => {
                             const { status, progress } = getProjectStatus(project.startDate, project.endDate);
 
                             return (
-                                <Card
+                                <div
                                     key={project.id}
-                                    className={`hover:transform hover:scale-[1.01] transition-all duration-300 overflow-hidden border border-white/10 animate-fadeIn delay-${index * 100}`}
+                                    className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 border border-blue-200 hover:transform hover:scale-[1.01] hover:border-blue-400 transition-all duration-500 group"
                                 >
-                                    <div className="p-6">
+                                    <div className="p-4">
                                         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
                                             <div className="flex-1">
-                                                <Heading level={2} className="text-2xl mb-2 text-white">
+                                                <Heading level={2} className="text-2xl mb-2 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
                                                     {project.title}
                                                 </Heading>
-                                                <p className="text-white/80 text-lg leading-relaxed">
+                                                <p className="text-gray-700 text-lg leading-relaxed text-justify">
                                                     {project.description}
                                                 </p>
                                             </div>
@@ -133,7 +132,7 @@ const Projects: React.FC = () => {
                                                 <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(status)}`}>
                                                     {status}
                                                 </span>
-                                                <div className="text-gold text-lg font-bold">
+                                                <div className="text-blue-600 text-lg font-bold">
                                                     {progress}% Complete
                                                 </div>
                                             </div>
@@ -142,10 +141,10 @@ const Projects: React.FC = () => {
                                         {/* Progress Bar */}
                                         <div className="mb-6">
                                             <div className="flex justify-between items-center mb-2">
-                                                <span className="text-gold font-semibold text-sm">Project Progress</span>
-                                                <span className="text-white/60 text-sm">{progress}%</span>
+                                                <span className="text-blue-600 font-semibold text-sm">Project Progress</span>
+                                                <span className="text-gray-600 text-sm">{progress}%</span>
                                             </div>
-                                            <div className="w-full bg-white/10 rounded-full h-3">
+                                            <div className="w-full bg-blue-100 rounded-full h-3">
                                                 <div
                                                     className={`h-3 rounded-full transition-all duration-500 ${getProgressColor(progress)}`}
                                                     style={{ width: `${progress}%` }}
@@ -156,16 +155,16 @@ const Projects: React.FC = () => {
                                         {/* Essential Details */}
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                                             <div>
-                                                <div className="text-gold font-semibold mb-2">Research Lead</div>
-                                                <div className="text-white">{project.lead}</div>
+                                                <div className="text-blue-600 font-semibold mb-2">Research Lead</div>
+                                                <div className="text-gray-700">{project.lead}</div>
                                             </div>
                                             <div>
-                                                <div className="text-gold font-semibold mb-2">Timeline</div>
-                                                <div className="text-white">{formatDate(project.startDate)} - {formatDate(project.endDate)}</div>
+                                                <div className="text-blue-600 font-semibold mb-2">Timeline</div>
+                                                <div className="text-gray-700">{formatDate(project.startDate)} - {formatDate(project.endDate)}</div>
                                             </div>
                                             <div>
-                                                <div className="text-gold font-semibold mb-2">Funder</div>
-                                                <div className="text-white">{project.funder}</div>
+                                                <div className="text-blue-600 font-semibold mb-2">Funder</div>
+                                                <div className="text-gray-700">{project.funder}</div>
                                             </div>
                                         </div>
 
@@ -173,13 +172,13 @@ const Projects: React.FC = () => {
                                         <div className="flex justify-center">
                                             <Link
                                                 to={`/projects/${project.id}`}
-                                                className="py-3 px-8 bg-gold text-dark-blue rounded-lg font-semibold hover:bg-[#e6c200] transition-all duration-300 text-center hover:scale-105"
+                                                className="py-3 px-8 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 text-center hover:scale-105"
                                             >
                                                 View Detailed Project Report
                                             </Link>
                                         </div>
                                     </div>
-                                </Card>
+                                </div>
                             );
                         })}
                     </div>
@@ -189,38 +188,39 @@ const Projects: React.FC = () => {
             {/* Statistics Summary */}
             <section className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
-                    <Card className="text-center group hover:transform hover:scale-[1.02] transition-all duration-500">
+                    <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 border border-blue-200 text-center group hover:transform hover:scale-[1.02] transition-all duration-500">
+                        <Heading level={3} className="text-blue-600 mb-8">Research Overview</Heading>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             <div>
-                                <div className="text-3xl font-bold text-gold mb-2">{researchAreas.length}</div>
-                                <div className="text-white/80 text-sm">Active Projects</div>
+                                <div className="text-3xl font-bold text-blue-600 mb-2">{researchAreas.length}</div>
+                                <div className="text-gray-700 text-sm">Active Projects</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-bold text-gold mb-2">
+                                <div className="text-3xl font-bold text-blue-600 mb-2">
                                     {researchAreas.reduce((total: number, project: Project) => total + project.team.length, 0)}
                                 </div>
-                                <div className="text-white/80 text-sm">Team Members</div>
+                                <div className="text-gray-700 text-sm">Team Members</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-bold text-gold mb-2">
+                                <div className="text-3xl font-bold text-blue-600 mb-2">
                                     {Math.round(researchAreas.reduce((total: number, project: Project) => {
                                         const { progress } = getProjectStatus(project.startDate, project.endDate);
                                         return total + progress;
                                     }, 0) / researchAreas.length)}%
                                 </div>
-                                <div className="text-white/80 text-sm">Average Progress</div>
+                                <div className="text-gray-700 text-sm">Average Progress</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-bold text-gold mb-2">
+                                <div className="text-3xl font-bold text-blue-600 mb-2">
                                     {researchAreas.filter(project => {
                                         const { status } = getProjectStatus(project.startDate, project.endDate);
                                         return status === 'Active';
                                     }).length}
                                 </div>
-                                <div className="text-white/80 text-sm">Currently Active</div>
+                                <div className="text-gray-700 text-sm">Currently Active</div>
                             </div>
                         </div>
-                    </Card>
+                    </div>
                 </div>
             </section>
         </div>

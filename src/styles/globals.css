@@ -28,8 +28,9 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #0A1F44;
-    color: white;
+    /* REMOVED the fixed background color */
+    color: #1f2937;
+    /* Changed from white to gray-900 for better visibility */
     scroll-behavior: smooth;
 }
 
@@ -86,7 +87,8 @@ body {
 /* Smooth focus transitions */
 button:focus,
 a:focus {
-    outline: 2px solid #FFD700;
+    outline: 2px solid #3b82f6;
+    /* Changed from gold to blue */
     outline-offset: 2px;
     transition: outline-color 0.2s ease;
 }
@@ -98,7 +100,8 @@ a:focus {
 
 .hover-lift:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    /* Lighter shadow */
 }
 
 .border-gold\/30 {
@@ -188,7 +191,8 @@ a:focus {
 
 /* Scroll to top button enhancements */
 .hover\:shadow-3xl:hover {
-    box-shadow: 0 25px 50px -12px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.5);
+    /* Changed from gold to blue */
 }
 
 /* Breadcrumb Styles */
@@ -220,7 +224,8 @@ a:focus {
     left: 0;
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, #FFD700, transparent);
+    background: linear-gradient(90deg, #3b82f6, transparent);
+    /* Changed from gold to blue */
     transition: width 0.3s ease;
 }
 

@@ -38,17 +38,17 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             {/* Home Link */}
             <button
                 onClick={() => handleNavigation(parentPath)}
-                className="flex items-center space-x-1 text-white/70 hover:text-gold transition-all duration-300 group hover:scale-105"
+                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all duration-300 group hover:scale-105"
             >
                 <Home className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                 <span className="font-medium">{parentPage}</span>
             </button>
 
             {/* Separator */}
-            <ChevronRight className="w-4 h-4 text-white/40" />
+            <ChevronRight className="w-4 h-4 text-gray-400" />
 
             {/* Current Page */}
-            <span className="text-gold font-semibold flex items-center space-x-1">
+            <span className="text-blue-600 font-semibold flex items-center space-x-1">
                 <span>{currentPage}</span>
             </span>
         </nav>

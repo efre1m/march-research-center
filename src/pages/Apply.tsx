@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import SectionHeader from '../components/ui/SectionHeader';
-import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 
 const Apply: React.FC = () => {
@@ -125,26 +123,38 @@ const Apply: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen py-8">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12">
             <div className="max-w-4xl mx-auto px-6">
                 {/* Back Button */}
                 <button
                     onClick={() => navigate('/careers')}
-                    className="flex items-center gap-2 text-gold mb-6 hover:underline transition-all duration-300"
+                    className="flex items-center gap-2 text-blue-600 mb-6 hover:underline transition-all duration-300 hover:text-blue-700"
                 >
                     <ArrowLeft size={20} />
                     Back to Careers
                 </button>
 
-                <SectionHeader
-                    title={`Apply for ${positionTitle || "Position"}`}
-                    subtitle="Submit your application to join our team"
-                    variant="modern"
-                />
+                {/* Custom Header - Replacing SectionHeader */}
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center gap-3 bg-blue-500/10 backdrop-blur-sm border border-blue-400/30 rounded-full px-6 py-3 mb-4">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        <span className="text-blue-600 text-sm font-semibold tracking-wider uppercase">
+                            Job Application
+                        </span>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    </div>
 
-                <Card className="p-8">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                        Apply for <span className="text-blue-600">{positionTitle || "Position"}</span>
+                    </h1>
+                    <p className="text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
+                        Submit your application to join our team
+                    </p>
+                </div>
+
+                <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 border border-blue-200">
                     {submitError && (
-                        <div className="bg-red-500/20 border border-red-500/30 text-red-400 p-4 rounded-lg mb-6">
+                        <div className="bg-red-500/20 border border-red-500/30 text-red-600 p-4 rounded-lg mb-6">
                             {submitError}
                         </div>
                     )}
@@ -152,8 +162,8 @@ const Apply: React.FC = () => {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-white font-medium mb-2">
-                                    Full Name <span className="text-red-400">*</span>
+                                <label className="block text-gray-900 font-medium mb-2">
+                                    Full Name <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -161,17 +171,17 @@ const Apply: React.FC = () => {
                                     placeholder="Write your full name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-3 bg-dark-blue border rounded-lg text-white placeholder-white/60 focus:outline-none ${errors.name ? 'border-red-500' : 'border-gold/30 focus:border-gold'
+                                    className={`w-full px-4 py-3 bg-white border rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none ${errors.name ? 'border-red-500' : 'border-blue-300 focus:border-blue-500'
                                         }`}
                                 />
                                 {errors.name && (
-                                    <span className="text-red-400 text-sm mt-1">This field is required</span>
+                                    <span className="text-red-500 text-sm mt-1">This field is required</span>
                                 )}
                             </div>
 
                             <div>
-                                <label className="block text-white font-medium mb-2">
-                                    Email Address <span className="text-red-400">*</span>
+                                <label className="block text-gray-900 font-medium mb-2">
+                                    Email Address <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="email"
@@ -179,11 +189,11 @@ const Apply: React.FC = () => {
                                     placeholder="example@domain.com"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-3 bg-dark-blue border rounded-lg text-white placeholder-white/60 focus:outline-none ${errors.email ? 'border-red-500' : 'border-gold/30 focus:border-gold'
+                                    className={`w-full px-4 py-3 bg-white border rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none ${errors.email ? 'border-red-500' : 'border-blue-300 focus:border-blue-500'
                                         }`}
                                 />
                                 {errors.email && (
-                                    <span className="text-red-400 text-sm mt-1">
+                                    <span className="text-red-500 text-sm mt-1">
                                         {!formData.email.includes("@")
                                             ? "Email must contain @ symbol"
                                             : !formData.email.includes(".")
@@ -195,8 +205,8 @@ const Apply: React.FC = () => {
                         </div>
 
                         <div>
-                            <label className="block text-white font-medium mb-2">
-                                Phone Number <span className="text-red-400">*</span>
+                            <label className="block text-gray-900 font-medium mb-2">
+                                Phone Number <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="tel"
@@ -204,34 +214,34 @@ const Apply: React.FC = () => {
                                 placeholder="+2519xxxxxxxx or 09xxxxxxxx"
                                 value={formData.phoneNumber}
                                 onChange={handleChange}
-                                className={`w-full px-4 py-3 bg-dark-blue border rounded-lg text-white placeholder-white/60 focus:outline-none ${errors.phoneNumber ? 'border-red-500' : 'border-gold/30 focus:border-gold'
+                                className={`w-full px-4 py-3 bg-white border rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none ${errors.phoneNumber ? 'border-red-500' : 'border-blue-300 focus:border-blue-500'
                                     }`}
                             />
                             {errors.phoneNumber && (
-                                <span className="text-red-400 text-sm mt-1">
+                                <span className="text-red-500 text-sm mt-1">
                                     Must be +2519xxxxxxxx or 09xxxxxxxx
                                 </span>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-white font-medium mb-2">
-                                Upload Resume (PDF or DOC/DOCX) <span className="text-red-400">*</span>
+                            <label className="block text-gray-900 font-medium mb-2">
+                                Upload Resume (PDF or DOC/DOCX) <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="file"
                                 accept=".pdf,.doc,.docx"
                                 onChange={handleFileChange}
-                                className={`w-full px-4 py-3 bg-dark-blue border rounded-lg text-white focus:outline-none ${errors.resume ? 'border-red-500' : 'border-gold/30 focus:border-gold'
+                                className={`w-full px-4 py-3 bg-white border rounded-lg text-gray-900 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 ${errors.resume ? 'border-red-500' : 'border-blue-300 focus:border-blue-500'
                                     }`}
                             />
                             {errors.resume && (
-                                <span className="text-red-400 text-sm mt-1">Resume is required</span>
+                                <span className="text-red-500 text-sm mt-1">Resume is required</span>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-white font-medium mb-2">
+                            <label className="block text-gray-900 font-medium mb-2">
                                 Cover Letter
                             </label>
                             <textarea
@@ -240,7 +250,7 @@ const Apply: React.FC = () => {
                                 placeholder="Explain why you're a good fit for this position..."
                                 value={formData.coverLetter}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-dark-blue border border-gold/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-gold"
+                                className="w-full px-4 py-3 bg-white border border-blue-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500"
                             />
                         </div>
 
@@ -248,7 +258,7 @@ const Apply: React.FC = () => {
                             <Button
                                 type="button"
                                 variant="secondary"
-                                className="flex-1 py-3"
+                                className="flex-1 py-3 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
                                 onClick={() => navigate('/careers')}
                             >
                                 Cancel
@@ -256,18 +266,18 @@ const Apply: React.FC = () => {
                             <Button
                                 type="submit"
                                 variant="primary"
-                                className="flex-1 py-3"
+                                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700"
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? "Submitting..." : "Submit Application"}
                             </Button>
                         </div>
 
-                        <p className="text-white/60 text-sm text-center">
-                            <span className="text-red-400">*</span> indicates required fields
+                        <p className="text-gray-600 text-sm text-center">
+                            <span className="text-red-500">*</span> indicates required fields
                         </p>
                     </form>
-                </Card>
+                </div>
             </div>
         </div>
     );
