@@ -55,7 +55,7 @@ const Projects: React.FC = () => {
             <section className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <Breadcrumb
-                        currentPage="Research Projects"
+                        currentPage="Projects"
                         parentPage="Home"
                         parentPath="/"
                     />

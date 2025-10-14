@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isResearchOpen, setIsResearchOpen] = useState(false);
+    const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
     const [isNewsEventsOpen, setIsNewsEventsOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -20,16 +20,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
         'Contact'
     ];
 
-    const researchItems = [
+    const whatWeDoItems = [
+        'Research Areas',
         'Projects',
-        'Publications'
+        'Publications',
+        'Impacts',
+        'Leadership'
     ];
 
     const newsEventsItems = [
         { name: 'News', path: '/news' },
         { name: 'Events', path: '/events' },
         { name: 'Stories', path: '/stories' },
-        { name: 'Careers', path: '/careers' } // Added Careers to What's New
+        { name: 'Careers', path: '/careers' }
     ];
 
     const handleNewsEventsNavigation = (itemName: string, path: string) => {
@@ -37,6 +40,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
         navigate(path);
         setIsOpen(false);
         setIsNewsEventsOpen(false);
+    };
+
+    const handleWhatWeDoNavigation = (itemName: string) => {
+        onPageChange(itemName);
+        setIsOpen(false);
+        setIsWhatWeDoOpen(false);
     };
 
     return (
@@ -89,36 +98,33 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
                         </button>
                     ))}
 
-                    {/* Research Dropdown */}
+                    {/* What We Do Dropdown */}
                     <div className="relative">
                         <button
-                            onClick={() => setIsResearchOpen(!isResearchOpen)}
+                            onClick={() => setIsWhatWeDoOpen(!isWhatWeDoOpen)}
                             className={`
                 w-full text-left px-6 py-4 rounded-xl transition-all duration-300
                 text-lg font-medium flex items-center justify-between
-                ${researchItems.includes(activePage)
+                ${whatWeDoItems.includes(activePage)
                                     ? 'bg-gold text-dark-blue font-semibold shadow-lg'
                                     : 'text-white hover:bg-gold/10 hover:text-gold'
                                 }
               `}
                         >
-                            <span>Research</span>
+                            <span>What We Do</span>
                             <ChevronDown
                                 size={20}
-                                className={`transform transition-transform ${isResearchOpen ? 'rotate-180' : ''}`}
+                                className={`transform transition-transform ${isWhatWeDoOpen ? 'rotate-180' : ''}`}
                             />
                         </button>
 
                         {/* Dropdown Menu */}
-                        {isResearchOpen && (
+                        {isWhatWeDoOpen && (
                             <div className="mt-2 ml-4 space-y-2 border-l border-gold/20 pl-4">
-                                {researchItems.map((item) => (
+                                {whatWeDoItems.map((item) => (
                                     <button
                                         key={item}
-                                        onClick={() => {
-                                            onPageChange(item);
-                                            setIsOpen(false);
-                                        }}
+                                        onClick={() => handleWhatWeDoNavigation(item)}
                                         className={`
                         w-full text-left px-4 py-3 rounded-lg transition-all duration-300
                         text-base font-medium

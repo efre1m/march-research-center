@@ -8,7 +8,7 @@ import { coreTeamMembers } from '../data/teamdata';
 import { newsItems } from '../data/newsdata';
 import { events } from '../data/eventsdata';
 import { stories } from '../data/storiesdata';
-import { vacancies } from '../data/vacancydata'; // Import vacancies data
+import { vacancies } from '../data/vacancydata';
 
 interface HomeProps { }
 
@@ -149,19 +149,23 @@ const Home: React.FC<HomeProps> = () => {
 
     return (
         <div className="space-y-16 animate-fadeIn">
+            {/* Hero Section with Improved Background */}
             <section className="relative animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="relative rounded-2xl overflow-hidden border border-white/20 bg-dark-blue/90 backdrop-blur-sm">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                            style={{
-                                backgroundImage: 'url(/images/overview/medical.png)',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center 30%'
-                            }}
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-dark-blue/70 via-dark-blue/30 to-dark-blue/10"></div>
-                            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-dark-blue/20"></div>
+                        {/* Background Image with Better Visibility */}
+                        <div className="absolute inset-0">
+                            <img
+                                src="/images/overview/medical.png"
+                                alt="Maternal Healthcare Research"
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    target.nextElementSibling?.classList.remove('hidden');
+                                }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-dark-blue/60 via-dark-blue/40 to-dark-blue/20 hidden"></div>
                         </div>
 
                         <div className="relative z-10 p-8 lg:p-12">
@@ -195,10 +199,10 @@ const Home: React.FC<HomeProps> = () => {
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                                     {[
-                                        { number: 50, label: 'Research Projects', suffix: '+' },
-                                        { number: 25, label: 'Countries', suffix: '+' },
-                                        { number: 100, label: 'Lives Impacted', suffix: 'K+' },
-                                        { number: 15, label: 'Years Excellence', suffix: '+' }
+                                        { number: 25, label: 'Lives Impacted', suffix: 'k+' },
+                                        { number: 15, label: 'Policies Influenced', suffix: '+' },
+                                        { number: 50, label: 'Communities Served', suffix: '+' },
+                                        { number: 10, label: 'Funding Secured', suffix: 'M+' }
                                     ].map((stat, index) => (
                                         <div
                                             key={index}
@@ -233,12 +237,14 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
+            {/* Image Slider Section */}
             <section className="relative animate-fadeIn">
                 <div className="max-w-7xl mx-auto px-6">
                     <ImageSlider slides={heroSlides} autoPlay={true} interval={6000} />
                 </div>
             </section>
 
+            {/* Latest News Section with Improved Images */}
             <section id="latest-news" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -251,13 +257,13 @@ const Home: React.FC<HomeProps> = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {newsItems.slice(0, 3).map((news) => (
                             <Card key={news.id} className={`group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col animate-fadeIn`}>
-                                <div
-                                    className="relative h-48 overflow-hidden rounded-t-lg bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 flex items-center justify-center"
-                                    style={{ backgroundImage: `url(${news.image})` }}
-                                    onError={handleImageError}
-                                    data-initials={news.title.split(' ').map(word => word[0]).join('').slice(0, 2)}
-                                >
-                                    <div className="text-gold text-4xl opacity-0">📰</div>
+                                <div className="relative h-48 overflow-hidden rounded-t-lg bg-dark-blue/20">
+                                    <img
+                                        src={news.image}
+                                        alt={news.title}
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                        onError={handleImageError}
+                                    />
                                     <div className="absolute inset-0 bg-gradient-to-t from-dark-blue/70 to-transparent" />
                                 </div>
 
@@ -289,6 +295,7 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
+            {/* Events & Announcements Section */}
             <section id="events-announcements" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -311,11 +318,14 @@ const Home: React.FC<HomeProps> = () => {
                                     <Card key={event.id} className="group hover:transform hover:scale-[1.02] transition-all duration-500 overflow-hidden">
                                         <div className="flex gap-4">
                                             <div className="flex-shrink-0">
-                                                <div
-                                                    className="w-20 h-20 rounded-lg bg-cover bg-center"
-                                                    style={{ backgroundImage: `url(${event.image})` }}
-                                                    onError={handleImageError}
-                                                />
+                                                <div className="w-20 h-20 rounded-lg bg-dark-blue/20 overflow-hidden">
+                                                    <img
+                                                        src={event.image}
+                                                        alt={event.title}
+                                                        className="w-full h-full object-cover"
+                                                        onError={handleImageError}
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex items-center justify-between mb-2">
@@ -420,6 +430,7 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
+            {/* Impact Stories Section with Improved Images */}
             <section id="impact-stories" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -437,10 +448,13 @@ const Home: React.FC<HomeProps> = () => {
                                 onClick={() => handleNavigation(`/stories/${story.id}`)}
                             >
                                 <div className="flex flex-col h-full">
-                                    <div className="relative h-48 bg-gradient-to-br from-gold/20 to-dark-blue rounded-t-lg overflow-hidden">
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div className="text-gold text-4xl">📖</div>
-                                        </div>
+                                    <div className="relative h-48 bg-dark-blue/20 rounded-t-lg overflow-hidden">
+                                        <img
+                                            src={story.image}
+                                            alt={story.title}
+                                            className="w-full h-full object-cover"
+                                            onError={handleImageError}
+                                        />
                                         <div className="absolute top-4 left-4">
                                             <span className="px-3 py-1 bg-gold text-dark-blue text-sm font-semibold rounded-full">
                                                 {story.category}
@@ -484,6 +498,7 @@ const Home: React.FC<HomeProps> = () => {
                 </div>
             </section>
 
+            {/* Leadership Team Section */}
             <section id="leadership-team" className="animate-slideUp">
                 <div className="max-w-7xl mx-auto px-6">
                     <SectionHeader
@@ -499,15 +514,13 @@ const Home: React.FC<HomeProps> = () => {
                                 key={member.id}
                                 className={`text-center group hover:transform hover:scale-105 transition-all duration-500 overflow-hidden animate-fadeIn`}
                             >
-                                <div
-                                    className="relative w-28 h-28 mx-auto mb-6 rounded-full overflow-hidden border-2 border-gold/30 group-hover:border-gold/50 transition-all duration-500 bg-cover bg-center transform group-hover:scale-110 flex items-center justify-center"
-                                    style={{ backgroundImage: `url(${member.image})` }}
-                                    onError={handleImageError}
-                                    data-initials={member.name.split(' ').map(n => n[0]).join('')}
-                                >
-                                    <div className="text-gold text-2xl font-bold opacity-0">
-                                        {member.name.split(' ').map(n => n[0]).join('')}
-                                    </div>
+                                <div className="relative w-28 h-28 mx-auto mb-6 rounded-full overflow-hidden border-2 border-gold/30 group-hover:border-gold/50 transition-all duration-500 bg-dark-blue/20">
+                                    <img
+                                        src={member.image}
+                                        alt={member.name}
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                        onError={handleImageError}
+                                    />
                                     <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-dark-blue/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
 

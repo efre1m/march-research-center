@@ -1,17 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../components/ui/Heading';
 import Card from '../components/ui/Card';
+import { fullTeamMembers } from '../data/teamdata';
 
 const About: React.FC = () => {
-    const stats = [
-        { number: '50+', label: 'Research Projects' },
-        { number: '100+', label: 'Publications' },
-        { number: '25+', label: 'PhD Researchers' },
-        { number: '15+', label: 'International Collaborations' },
-        { number: '$10M+', label: 'Research Funding' },
-        { number: '5', label: 'Research Departments' }
-    ];
-
     const timeline = [
         {
             year: '2018',
@@ -50,125 +42,30 @@ const About: React.FC = () => {
         }
     ];
 
-    const learningFacilities = [
+    const coreValues = [
         {
-            name: 'Ayder Comprehensive Specialized Hospital',
-            location: 'Mekelle, Tigray',
-            description: 'Our flagship teaching hospital and clinical research hub, featuring advanced medical technology and serving as the primary site for medical training, clinical trials, and healthcare innovation.',
-            capacity: '750+ beds, 15 specialized units',
-            focus: 'Clinical Research, Medical Education, Patient Care'
+            principle: 'Excellence',
+            description: 'We strive for the highest standards in all our research activities, pushing the boundaries of knowledge and innovation.'
         },
         {
-            name: 'Mekelle University Main Campus',
-            location: 'Mekelle, Tigray',
-            description: 'The central academic hub with state-of-the-art research laboratories, lecture halls, and collaborative spaces that foster interdisciplinary research and innovation.',
-            capacity: '20+ research labs, 5 lecture halls',
-            focus: 'Academic Research, Laboratory Studies, Student Training'
+            principle: 'Collaboration',
+            description: 'We believe in the power of teamwork and interdisciplinary approaches to solve complex global challenges.'
         },
         {
-            name: 'College of Health Sciences Complex',
-            location: 'Mekelle University',
-            description: 'Specialized facility dedicated to medical and health sciences education, featuring simulation centers, research labs, and community health outreach programs.',
-            capacity: '10 simulation labs, 3 research centers',
-            focus: 'Medical Training, Public Health Research, Community Outreach'
+            principle: 'Integrity',
+            description: 'We conduct our research with honesty, transparency, and adherence to ethical principles.'
         },
         {
-            name: 'Tigray Innovation and Research Park',
-            location: 'Mekelle, Tigray',
-            description: 'Modern research park housing advanced technology labs, startup incubators, and collaborative spaces for industry-academia partnerships and regional development projects.',
-            capacity: '8 technology labs, 3 incubator spaces',
-            focus: 'Technology Transfer, Innovation, Regional Development'
-        }
-    ];
-
-    const additionalFacilities = [
-        'Adigrat University Research Center',
-        'Axum Heritage Research Facility',
-        'Adwa Historical Studies Institute',
-        'Shire Agricultural Research Station',
-        'Humera Biomedical Research Unit',
-        'Wukro Environmental Studies Center',
-        'Alamata Technology Innovation Hub',
-        'Maychew Data Science Laboratory',
-        'Abi Adi Public Health Research Unit',
-        'Korem Climate Studies Center',
-        'Mekelle Engineering Research Complex',
-        'Hawzen Social Sciences Institute',
-        'Sekota Rural Development Center',
-        'Enderta Biotechnology Laboratory',
-        'Raya Valley Agricultural Research',
-        'Sheraro Mining Technology Unit',
-        'Adi Gudom Energy Research Facility',
-        'Mekelle Digital Innovation Hub',
-        'Tigray Cultural Heritage Archive',
-        'Regional Water Research Institute'
-    ];
-
-    const ethicalPrinciples = [
-        {
-            principle: 'Research Integrity',
-            description: 'We adhere to the highest standards of scientific rigor, transparency, and reproducibility in all our research activities.'
+            principle: 'Innovation',
+            description: 'We foster creativity and embrace new ideas to drive transformative discoveries and solutions.'
         },
         {
-            principle: 'Ethical Oversight',
-            description: 'All research projects undergo rigorous ethical review to ensure compliance with international standards and regulations.'
+            principle: 'Impact',
+            description: 'We are committed to research that makes a meaningful difference in society and addresses real-world problems.'
         },
         {
-            principle: 'Data Privacy',
-            description: 'We implement robust data protection measures and respect participant confidentiality in all studies.'
-        },
-        {
-            principle: 'Responsible Innovation',
-            description: 'We consider the societal implications of our research and strive to develop technologies that benefit humanity.'
-        },
-        {
-            principle: 'Open Science',
-            description: 'We promote open access to research findings and collaborate openly with the scientific community.'
-        },
-        {
-            principle: 'Sustainability',
-            description: 'Our research practices prioritize environmental sustainability and social responsibility.'
-        }
-    ];
-
-    const partners = [
-        {
-            type: 'Academic Institutions',
-            organizations: [
-                'Massachusetts Institute of Technology',
-                'Stanford University',
-                'University of Cambridge',
-                'National University of Singapore',
-                'Technical University of Munich'
-            ]
-        },
-        {
-            type: 'Government Agencies',
-            organizations: [
-                'National Science Foundation',
-                'European Research Council',
-                'Department of Energy',
-                'National Institutes of Health'
-            ]
-        },
-        {
-            type: 'Industry Partners',
-            organizations: [
-                'Google Research',
-                'Microsoft Research',
-                'Siemens AG',
-                'IBM Research',
-                'Tesla AI'
-            ]
-        },
-        {
-            type: 'Non-Profit Organizations',
-            organizations: [
-                'Bill & Melinda Gates Foundation',
-                'Chan Zuckerberg Initiative',
-                'World Health Organization',
-                'United Nations Development Programme'
-            ]
+            principle: 'Diversity',
+            description: 'We value diverse perspectives and create an inclusive environment where everyone can thrive.'
         }
     ];
 
@@ -317,80 +214,212 @@ const About: React.FC = () => {
                 : 'opacity-0 transform translate-x-10';
     };
 
-    return (
-        <div className="space-y-12">
-            {/* Hero Section */}
-            <div
-                ref={setSectionRef(0)}
-                className={`text-center transition-all duration-700 ease-out ${getSectionAnimationClass(0)}`}
-            >
-                <Heading level={1}>About MARCH Research Center</Heading>
-                <p className="text-xl text-white/80 max-w-4xl mx-auto">
-                    We are a premier interdisciplinary research institution dedicated to advancing
-                    scientific knowledge and developing innovative technologies that address global
-                    challenges. Through collaboration across disciplines, we push the boundaries
-                    of what's possible.
-                </p>
-            </div>
+    // Get director from team data
+    const director = fullTeamMembers.find(member =>
+        member.role.toLowerCase().includes('director') ||
+        member.name.toLowerCase().includes('chen')
+    ) || fullTeamMembers[0];
 
-            {/* Stats Section */}
-            <section ref={setSectionRef(1)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(1)}`}>
-                    <Card className="bg-gradient-to-r from-gold/10 to-dark-blue">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-                            {stats.map((stat, index) => (
-                                <div
-                                    key={index}
-                                    ref={setCardRef(index)}
-                                    className={`transition-all duration-500 ease-out delay-${index * 100} ${getCardAnimationClass(index)}`}
-                                >
-                                    <div className="text-3xl font-bold text-gold mb-2">{stat.number}</div>
-                                    <div className="text-white/70 text-sm">{stat.label}</div>
+    // Handle image error for director
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement | HTMLDivElement, Event>) => {
+        const target = e.target as HTMLElement;
+        if (target.style.backgroundImage) {
+            target.style.backgroundImage = 'none';
+            target.classList.add('bg-gradient-to-br', 'from-gold/20', 'to-dark-blue');
+            const innerDiv = target.querySelector('div');
+            if (innerDiv) {
+                innerDiv.className = 'text-gold text-4xl font-bold';
+                innerDiv.textContent = target.getAttribute('data-initials') || 'DR';
+            }
+        }
+    };
+
+    return (
+        <div className="space-y-16">
+            {/* Hero Section - Styled like Team page */}
+            <section className="animate-slideUp">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="relative py-12 text-center border border-white/20 rounded-2xl bg-white/5 backdrop-blur-sm">
+                        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-gold/5 rounded-2xl"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/10 to-transparent rounded-2xl"></div>
+
+                        <div className="relative z-10 px-6">
+                            <div className="inline-flex items-center gap-3 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full px-6 py-3 mb-8">
+                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                                <span className="text-gold text-sm font-semibold tracking-wider uppercase">
+                                    World-Class Research Institution
+                                </span>
+                                <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                            </div>
+
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                                Meet Our <span className="text-gold">Research</span>
+                                <br className="hidden lg:block" /> Center
+                            </h1>
+
+                            <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed">
+                                World-class researchers, scientists, and innovators dedicated to pushing the boundaries
+                                of knowledge and creating impactful solutions for global challenges.
+                            </p>
+
+                            <div className="flex flex-wrap justify-center gap-4 text-white/70 text-sm">
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                                    <span>Interdisciplinary Expertise</span>
                                 </div>
-                            ))}
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                    <span>Global Research Network</span>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2 border border-white/20">
+                                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                    <span>Innovation-Driven Approach</span>
+                                </div>
+                            </div>
                         </div>
-                    </Card>
+                    </div>
+                </div>
+            </section>
+
+            {/* Who We Are - Two Column Layout with Background Image */}
+            <section ref={setSectionRef(0)} className="relative py-16">
+                {/* Background Image with Lighter Overlay */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center bg-fixed"
+                    style={{
+                        backgroundImage: `url('images/march/work.jpg')`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                    }}
+                >
+                    <div className="absolute inset-0 bg-dark-blue/40 backdrop-blur-[1px]"></div>
+                </div>
+
+                <div className={`relative max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${getSectionAnimationClass(0)}`}>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        {/* Left Column - Description */}
+                        <div className="space-y-6">
+                            <Heading level={2} className="text-gold mb-6">Who We Are</Heading>
+
+                            <div className="space-y-4 text-white/80 leading-relaxed text-lg">
+                                <p>
+                                    The MARCH Research Center is an interdisciplinary research institution established in 2018
+                                    with a strong affiliation to leading academic networks and research consortia worldwide.
+                                    Our center represents a convergence of brilliant minds dedicated to pushing the boundaries
+                                    of scientific discovery and technological innovation.
+                                </p>
+
+                                <p>
+                                    With deep roots in academic excellence and a commitment to addressing global challenges,
+                                    MARCH brings together researchers, scientists, and innovators from diverse fields to
+                                    collaborate on transformative projects that transcend traditional disciplinary boundaries.
+                                </p>
+
+                                <div className="bg-white/10 p-6 rounded-lg border border-gold/20 backdrop-blur-sm">
+                                    <Heading level={3} className="text-gold mb-4 text-lg">Key Thematic Areas & Priorities</Heading>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Artificial Intelligence & Machine Learning</span>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Sustainable Energy Technologies</span>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Biomedical Research & Healthcare Innovation</span>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Climate Change & Environmental Science</span>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Data Science & Computational Research</span>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full flex-shrink-0"></div>
+                                            <span className="text-white/70 text-sm">Public Health & Community Well-being</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p>
+                                    Our research priorities are carefully aligned with global sustainable development goals
+                                    and emerging technological frontiers, ensuring that our work remains relevant, impactful,
+                                    and forward-looking.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right Column - Large Clean Image with Auto Fit */}
+                        <div className="relative">
+                            <Card className="p-0 overflow-hidden group hover:transform hover:scale-105 transition-all duration-500 h-full border-2 border-gold/30">
+                                <div className="w-full h-[650px] flex items-center justify-center bg-dark-blue/20">
+                                    <img
+                                        src="images/march/march.jpg"
+                                        alt="MARCH Research Center"
+                                        className="w-full h-full object-contain"
+                                        onError={handleImageError}
+                                    />
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             {/* Mission & Vision */}
-            <section ref={setSectionRef(2)}>
-                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 transition-all duration-700 ease-out ${getSectionAnimationClass(2)}`}>
-                    <div
-                        ref={setCardRef(stats.length)}
-                        className={`transition-all duration-500 ease-out ${getCardAnimationClass(stats.length)}`}
-                    >
-                        <Card>
-                            <Heading level={2} className="mb-4">Our Mission</Heading>
-                            <p className="text-white/70 leading-relaxed">
-                                To conduct groundbreaking interdisciplinary research that expands human knowledge
-                                and creates innovative solutions to the world's most pressing challenges. We foster
-                                an environment of scientific excellence, collaboration, and discovery that transcends
-                                traditional disciplinary boundaries.
-                            </p>
-                        </Card>
-                    </div>
-                    <div
-                        ref={setCardRef(stats.length + 1)}
-                        className={`transition-all duration-500 ease-out delay-100 ${getCardAnimationClass(stats.length + 1)}`}
-                    >
-                        <Card>
-                            <Heading level={2} className="mb-4">Our Vision</Heading>
-                            <p className="text-white/70 leading-relaxed">
-                                To be a global leader in scientific research and technological innovation,
-                                recognized for our contributions to advancing knowledge and improving lives
-                                worldwide. We envision a future where our discoveries lead to sustainable
-                                solutions and transformative technologies that benefit humanity.
-                            </p>
-                        </Card>
+            <section ref={setSectionRef(1)}>
+                <div className={`max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${getSectionAnimationClass(1)}`}>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div
+                            ref={setCardRef(0)}
+                            className={`transition-all duration-500 ease-out ${getCardAnimationClass(0)}`}
+                        >
+                            <Card className="hover:bg-white/15 transition-all duration-300 group h-full">
+                                <div className="flex items-center mb-4">
+                                    <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center mr-4">
+                                        <span className="text-gold text-lg">🎯</span>
+                                    </div>
+                                    <Heading level={2} className="text-white group-hover:text-gold transition-colors duration-300">Our Mission</Heading>
+                                </div>
+                                <p className="text-white/70 leading-relaxed">
+                                    To conduct groundbreaking interdisciplinary research that expands human knowledge
+                                    and creates innovative solutions to the world's most pressing challenges. We foster
+                                    an environment of scientific excellence, collaboration, and discovery that transcends
+                                    traditional disciplinary boundaries.
+                                </p>
+                            </Card>
+                        </div>
+                        <div
+                            ref={setCardRef(1)}
+                            className={`transition-all duration-500 ease-out delay-100 ${getCardAnimationClass(1)}`}
+                        >
+                            <Card className="hover:bg-white/15 transition-all duration-300 group h-full">
+                                <div className="flex items-center mb-4">
+                                    <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center mr-4">
+                                        <span className="text-gold text-lg">🔭</span>
+                                    </div>
+                                    <Heading level={2} className="text-white group-hover:text-gold transition-colors duration-300">Our Vision</Heading>
+                                </div>
+                                <p className="text-white/70 leading-relaxed">
+                                    To be a global leader in scientific research and technological innovation,
+                                    recognized for our contributions to advancing knowledge and improving lives
+                                    worldwide. We envision a future where our discoveries lead to sustainable
+                                    solutions and transformative technologies that benefit humanity.
+                                </p>
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Our Story / History with Animation */}
-            <section ref={setSectionRef(3)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(3)}`}>
-                    <Heading level={2} className="text-center mb-8">Our Story</Heading>
+            <section ref={setSectionRef(2)}>
+                <div className={`max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${getSectionAnimationClass(2)}`}>
+                    <Heading level={2} className="text-center mb-12 text-gold">Our Journey</Heading>
                     <div className="relative">
                         {/* Timeline line */}
                         <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gold/30 h-full"></div>
@@ -403,9 +432,9 @@ const About: React.FC = () => {
                                     className={`flex items-center w-full ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} transition-all duration-700 ease-out ${getTimelineAnimationClass(index)}`}
                                 >
                                     <div className="w-1/2 pr-8 pl-8">
-                                        <Card className="hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                                        <Card className="hover:bg-white/15 transition-all duration-300 hover:scale-105 group">
                                             <div className="text-gold font-bold text-lg mb-2">{item.year}</div>
-                                            <Heading level={4} className="text-white mb-2">{item.event}</Heading>
+                                            <Heading level={4} className="text-white mb-2 group-hover:text-gold transition-colors duration-300">{item.event}</Heading>
                                             <p className="text-white/70 text-sm">{item.description}</p>
                                         </Card>
                                     </div>
@@ -418,86 +447,26 @@ const About: React.FC = () => {
                 </div>
             </section>
 
-            {/* Learning Facilities */}
-            <section ref={setSectionRef(4)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(4)}`}>
-                    <Heading level={2} className="text-center mb-8">Our Learning Facilities</Heading>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        {learningFacilities.map((facility, index) => (
-                            <div
-                                key={index}
-                                ref={setCardRef(stats.length + 2 + index)}
-                                className={`transition-all duration-500 ease-out delay-${index * 100} ${getCardAnimationClass(stats.length + 2 + index)}`}
-                            >
-                                <Card className="hover:transform hover:scale-105 transition-all duration-300 bg-gradient-to-br from-dark-blue/50 to-gold/10">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div>
-                                            <Heading level={3} className="text-white mb-1">{facility.name}</Heading>
-                                            <p className="text-gold text-sm">{facility.location}</p>
-                                        </div>
-                                        <div className="bg-gold/20 px-3 py-1 rounded-full">
-                                            <span className="text-gold text-sm font-semibold">{index + 1}</span>
-                                        </div>
-                                    </div>
-                                    <p className="text-white/70 text-sm mb-3">{facility.description}</p>
-                                    <div className="bg-dark-blue/50 px-3 py-2 rounded-lg mb-2">
-                                        <span className="text-gold text-xs font-semibold">Capacity: </span>
-                                        <span className="text-white/70 text-xs">{facility.capacity}</span>
-                                    </div>
-                                    <div className="bg-gold/10 px-3 py-2 rounded-lg">
-                                        <span className="text-gold text-xs font-semibold">Primary Focus: </span>
-                                        <span className="text-white/70 text-xs">{facility.focus}</span>
-                                    </div>
-                                </Card>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Additional Facilities */}
-                    <div
-                        ref={setCardRef(stats.length + 2 + learningFacilities.length)}
-                        className={`transition-all duration-500 ease-out delay-300 ${getCardAnimationClass(stats.length + 2 + learningFacilities.length)}`}
-                    >
-                        <Card className="bg-gradient-to-r from-gold/10 to-dark-blue/50">
-                            <Heading level={3} className="text-center mb-6 text-gold">Additional Research Facilities Across Tigray</Heading>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {additionalFacilities.map((facility, index) => (
-                                    <div key={index} className="flex items-center text-white/70 text-sm p-2 hover:bg-white/10 rounded-lg transition-colors duration-200">
-                                        <div className="w-2 h-2 bg-gold rounded-full mr-3 flex-shrink-0"></div>
-                                        <span>{facility}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="text-center mt-6">
-                                <p className="text-gold font-semibold">
-                                    Total: {learningFacilities.length + additionalFacilities.length} Facilities Serving the Tigray Region
-                                </p>
-                            </div>
-                        </Card>
-                    </div>
-                </div>
-            </section>
-
-            {/* Ethical Principles */}
-            <section ref={setSectionRef(5)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(5)}`}>
-                    <Heading level={2} className="text-center mb-8">Ethical Principles</Heading>
+            {/* Core Values */}
+            <section ref={setSectionRef(3)}>
+                <div className={`max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${getSectionAnimationClass(3)}`}>
+                    <Heading level={2} className="text-center mb-12 text-gold">Our Core Values</Heading>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {ethicalPrinciples.map((principle, index) => (
+                        {coreValues.map((value, index) => (
                             <div
                                 key={index}
-                                ref={setCardRef(stats.length + 2 + learningFacilities.length + 1 + index)}
-                                className={`transition-all duration-500 ease-out delay-${index * 100} ${getCardAnimationClass(stats.length + 2 + learningFacilities.length + 1 + index)}`}
+                                ref={setCardRef(2 + index)}
+                                className={`transition-all duration-500 ease-out delay-${index * 100} ${getCardAnimationClass(2 + index)}`}
                             >
-                                <Card className="hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                                <Card className="hover:bg-white/15 transition-all duration-300 hover:scale-105 group h-full">
                                     <div className="flex items-start mb-4">
-                                        <div className="bg-gold/20 w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                                            <span className="text-gold text-sm font-bold">{index + 1}</span>
+                                        <div className="bg-gold/20 w-10 h-10 rounded-full flex items-center justify-center mr-4 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                            <span className="text-gold text-lg font-bold">{index + 1}</span>
                                         </div>
-                                        <Heading level={3} className="text-white text-lg">{principle.principle}</Heading>
+                                        <Heading level={3} className="text-white text-lg group-hover:text-gold transition-colors duration-300">{value.principle}</Heading>
                                     </div>
                                     <p className="text-white/70 text-sm leading-relaxed">
-                                        {principle.description}
+                                        {value.description}
                                     </p>
                                 </Card>
                             </div>
@@ -506,54 +475,46 @@ const About: React.FC = () => {
                 </div>
             </section>
 
-            {/* Partners & Funders */}
-            <section ref={setSectionRef(6)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(6)}`}>
-                    <Heading level={2} className="text-center mb-8">Partners & Funders</Heading>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {partners.map((partner, index) => (
-                            <div
-                                key={index}
-                                ref={setCardRef(stats.length + 2 + learningFacilities.length + 1 + ethicalPrinciples.length + index)}
-                                className={`transition-all duration-500 ease-out delay-${index * 100} ${getCardAnimationClass(stats.length + 2 + learningFacilities.length + 1 + ethicalPrinciples.length + index)}`}
-                            >
-                                <Card className="hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                                    <Heading level={3} className="text-gold mb-4 text-center">{partner.type}</Heading>
-                                    <ul className="space-y-3">
-                                        {partner.organizations.map((org, orgIndex) => (
-                                            <li key={orgIndex} className="flex items-center text-white/70 text-sm hover:text-gold transition-colors duration-200">
-                                                <div className="w-2 h-2 bg-gold rounded-full mr-3 flex-shrink-0"></div>
-                                                {org}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </Card>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Leadership Message */}
-            <section ref={setSectionRef(7)}>
-                <div className={`transition-all duration-700 ease-out ${getSectionAnimationClass(7)}`}>
+            <section ref={setSectionRef(4)}>
+                <div className={`max-w-7xl mx-auto px-6 transition-all duration-700 ease-out ${getSectionAnimationClass(4)}`}>
                     <div
-                        ref={setCardRef(stats.length + 2 + learningFacilities.length + 1 + ethicalPrinciples.length + partners.length)}
-                        className={`transition-all duration-500 ease-out ${getCardAnimationClass(stats.length + 2 + learningFacilities.length + 1 + ethicalPrinciples.length + partners.length)}`}
+                        ref={setCardRef(2 + coreValues.length)}
+                        className={`transition-all duration-500 ease-out ${getCardAnimationClass(2 + coreValues.length)}`}
                     >
-                        <Card className="max-w-4xl mx-auto text-center hover:bg-white/10 transition-all duration-300">
-                            <div className="w-24 h-24 bg-gradient-to-br from-gold/30 to-dark-blue rounded-full flex items-center justify-center mx-auto mb-6">
-                                <div className="text-gold text-2xl font-bold">DR</div>
-                            </div>
-                            <Heading level={3} className="mb-4">Message from the Director</Heading>
-                            <p className="text-white/70 text-lg leading-relaxed mb-4">
-                                "At MARCH Research Center, we believe that the most significant scientific breakthroughs
-                                happen at the intersection of disciplines. Our collaborative approach brings together
-                                brilliant minds from diverse fields to tackle challenges that no single discipline
-                                could solve alone."
-                            </p>
-                            <div className="text-gold font-semibold">
-                                Dr. Sarah Chen, Director
+                        <Card className="max-w-4xl mx-auto hover:bg-white/10 transition-all duration-300 group">
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                {/* Director Image */}
+                                <div className="flex-shrink-0">
+                                    <div
+                                        className="w-32 h-32 rounded-full border-2 border-gold/30 group-hover:border-gold/50 transition-all duration-500 bg-cover bg-center flex items-center justify-center"
+                                        style={{ backgroundImage: `url(${director.image})` }}
+                                        onError={handleImageError}
+                                        data-initials={director.name.split(' ').map(n => n[0]).join('')}
+                                    >
+                                        <div className="text-gold text-2xl font-bold opacity-0">
+                                            {director.name.split(' ').map(n => n[0]).join('')}
+                                        </div>
+                                        <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-dark-blue/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                    </div>
+                                </div>
+
+                                {/* Message Content */}
+                                <div className="flex-1 text-center md:text-left">
+                                    <Heading level={3} className="mb-4 group-hover:text-gold transition-colors duration-300">Message from the Director</Heading>
+                                    <p className="text-white/70 text-lg leading-relaxed mb-4 italic">
+                                        "At MARCH Research Center, we believe that the most significant scientific breakthroughs
+                                        happen at the intersection of disciplines. Our collaborative approach brings together
+                                        brilliant minds from diverse fields to tackle challenges that no single discipline
+                                        could solve alone."
+                                    </p>
+                                    <div className="text-gold font-semibold">
+                                        {director.name}, {director.role}
+                                    </div>
+                                    <div className="text-white/60 text-sm mt-1">
+                                        {director.department}
+                                    </div>
+                                </div>
                             </div>
                         </Card>
                     </div>

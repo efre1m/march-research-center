@@ -15,6 +15,9 @@ import Careers from './pages/Careers';
 import Apply from './pages/Apply';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ResearchAreas from './pages/ResearchAreas';
+import Leadership from './pages/Leadership';
+import Impacts from './pages/Impacts';
 import ScrollToTop from './components/ui/ScrollToTop';
 import './styles/globals.css';
 import { useEffect } from 'react';
@@ -37,6 +40,9 @@ const AppWrapper: React.FC = () => {
   // Determine active page for Layout highlighting
   const getActivePage = () => {
     const path = location.pathname;
+    if (path.startsWith('/research-areas')) return 'Research Areas';
+    if (path.startsWith('/impacts')) return 'Impacts';
+    if (path.startsWith('/leadership')) return 'Leadership';
     if (path.startsWith('/projects')) return 'Projects';
     if (path.startsWith('/publications')) return 'Publications';
     if (path.startsWith('/team')) return 'Team';
@@ -56,6 +62,9 @@ const AppWrapper: React.FC = () => {
   const handlePageChange = (page: string) => {
     switch (page) {
       case 'Home': navigate('/'); break;
+      case 'Research Areas': navigate('/research-areas'); break;
+      case 'Impacts': navigate('/impacts'); break;
+      case 'Leadership': navigate('/leadership'); break;
       case 'Projects': navigate('/projects'); break;
       case 'Publications': navigate('/publications'); break;
       case 'Team': navigate('/team'); break;
@@ -75,6 +84,9 @@ const AppWrapper: React.FC = () => {
       <Layout activePage={activePage} onPageChange={handlePageChange}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/research-areas" element={<ResearchAreas />} />
+          <Route path="/impacts" element={<Impacts />} />
+          <Route path="/leadership" element={<Leadership />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetail />} />
           <Route path="/publications" element={<Publications />} />
