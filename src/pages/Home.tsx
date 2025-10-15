@@ -179,9 +179,10 @@ const Home: React.FC<HomeProps> = () => {
 
                             <div className="max-w-3xl">
                                 <div className="space-y-4 mb-8">
-                                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                                        Transforming <span className="text-transparent bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text">Maternal Healthcare</span> Through Cutting-Edge Research & Innovation
+                                    <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                                        Transforming <span className="text-yellow-400">Maternal Healthcare</span> Through Cutting-Edge Research & Innovation
                                     </h1>
+
                                     <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
                                 </div>
 

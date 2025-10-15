@@ -18,6 +18,7 @@ import Contact from './pages/Contact';
 import ResearchAreas from './pages/ResearchAreas';
 import Leadership from './pages/Leadership';
 import Impacts from './pages/Impacts';
+import InTheMedia from './pages/InTheMedia'; // Add this import
 import ScrollToTop from './components/ui/ScrollToTop';
 import './styles/globals.css';
 import { useEffect } from 'react';
@@ -53,6 +54,7 @@ const AppWrapper: React.FC = () => {
     if (path.startsWith('/apply')) return 'Careers'; // Apply page should highlight Careers
     if (path.startsWith('/about')) return 'About';
     if (path.startsWith('/contact')) return 'Contact';
+    if (path.startsWith('/media')) return 'In The Media'; // Add this line
     return 'Home';
   };
 
@@ -74,6 +76,7 @@ const AppWrapper: React.FC = () => {
       case 'Careers': navigate('/careers'); break;
       case 'About': navigate('/about'); break;
       case 'Contact': navigate('/contact'); break;
+      case 'In The Media': navigate('/media'); break; // Add this line
       default: break;
     }
   };
@@ -101,6 +104,7 @@ const AppWrapper: React.FC = () => {
           <Route path="/apply" element={<Apply />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/media" element={<InTheMedia />} /> {/* Add this route */}
         </Routes>
       </Layout>
 
