@@ -13,10 +13,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
     const navigate = useNavigate();
 
     // Professional page order with logical grouping
-    const researchItems = [
+    const whatWeDoItems = [
         { name: 'Research Areas', path: '/research-areas' },
         { name: 'Projects', path: '/projects' },
         { name: 'Publications', path: '/publications' },
+        { name: 'Resources', path: '/resources' },
         { name: 'Team', path: '/team' },
         { name: 'Leadership', path: '/leadership' }
     ];
@@ -25,8 +26,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
         { name: 'News', path: '/news' },
         { name: 'Events', path: '/events' },
         { name: 'Stories', path: '/stories' },
-        { name: 'Careers', path: '/careers' },
-        { name: 'In The Media', path: '/media' }
+        { name: 'In The Media', path: '/media' },
+        { name: 'Careers', path: '/careers' }
     ];
 
     const handleNavigation = (itemName: string, path?: string) => {
@@ -98,39 +99,54 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onPageChange }) => {
                         About
                     </button>
 
-                    {/* Research Dropdown */}
+                    {/* Where We Work */}
+                    <button
+                        onClick={() => handleNavigation('Where We Work', '/where-we-work')}
+                        className={`
+                            w-full text-left px-6 py-4 rounded-xl transition-all duration-300
+                            text-lg font-medium
+                            ${activePage === 'Where We Work'
+                                ? 'bg-gold text-dark-blue font-semibold shadow-lg'
+                                : 'text-white hover:bg-gold/10 hover:text-gold'
+                            }
+                        `}
+                    >
+                        Where We Work
+                    </button>
+
+                    {/* What We Do Dropdown */}
                     <div
                         className="relative"
-                        onMouseEnter={() => setHoveredDropdown('research')}
+                        onMouseEnter={() => setHoveredDropdown('whatWeDo')}
                         onMouseLeave={() => setHoveredDropdown(null)}
                     >
                         <button
-                            onClick={() => setHoveredDropdown(hoveredDropdown === 'research' ? null : 'research')}
+                            onClick={() => setHoveredDropdown(hoveredDropdown === 'whatWeDo' ? null : 'whatWeDo')}
                             className={`
                                 w-full text-left px-6 py-4 rounded-xl transition-all duration-300
                                 text-lg font-medium flex items-center justify-between
-                                ${researchItems.some(item => item.name === activePage)
+                                ${whatWeDoItems.some(item => item.name === activePage)
                                     ? 'bg-gold text-dark-blue font-semibold shadow-lg'
                                     : 'text-white hover:bg-gold/10 hover:text-gold'
                                 }
                             `}
                         >
-                            <span>Research</span>
+                            <span>What We Do</span>
                             <ChevronDown
                                 size={20}
-                                className={`transform transition-transform duration-300 ${hoveredDropdown === 'research' ? 'rotate-180' : ''
+                                className={`transform transition-transform duration-300 ${hoveredDropdown === 'whatWeDo' ? 'rotate-180' : ''
                                     }`}
                             />
                         </button>
 
                         {/* Dropdown Menu - Shows on hover (desktop) and click (mobile) */}
-                        {(hoveredDropdown === 'research' || (window.innerWidth < 1024 && hoveredDropdown === 'research')) && (
+                        {(hoveredDropdown === 'whatWeDo' || (window.innerWidth < 1024 && hoveredDropdown === 'whatWeDo')) && (
                             <div
                                 className="mt-2 ml-4 space-y-2 border-l border-gold/20 pl-4 animate-fadeIn"
-                                onMouseEnter={() => setHoveredDropdown('research')}
+                                onMouseEnter={() => setHoveredDropdown('whatWeDo')}
                                 onMouseLeave={() => setHoveredDropdown(null)}
                             >
-                                {researchItems.map((item) => (
+                                {whatWeDoItems.map((item) => (
                                     <button
                                         key={item.name}
                                         onClick={() => handleNavigation(item.name, item.path)}

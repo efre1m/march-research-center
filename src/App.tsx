@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Layout from './layout/Layout';
+import WhereWeWork from './pages/WhereWeWork';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
@@ -18,7 +19,8 @@ import Contact from './pages/Contact';
 import ResearchAreas from './pages/ResearchAreas';
 import Leadership from './pages/Leadership';
 import Impacts from './pages/Impacts';
-import InTheMedia from './pages/InTheMedia'; // Add this import
+import InTheMedia from './pages/InTheMedia';
+import Resources from './pages/Resources'; // Add this import
 import ScrollToTop from './components/ui/ScrollToTop';
 import './styles/globals.css';
 import { useEffect } from 'react';
@@ -54,7 +56,9 @@ const AppWrapper: React.FC = () => {
     if (path.startsWith('/apply')) return 'Careers'; // Apply page should highlight Careers
     if (path.startsWith('/about')) return 'About';
     if (path.startsWith('/contact')) return 'Contact';
-    if (path.startsWith('/media')) return 'In The Media'; // Add this line
+    if (path.startsWith('/media')) return 'In The Media';
+    if (path.startsWith('/resources')) return 'Resources'; // Add this line
+    if (path.startsWith('/where-we-work')) return 'Where We Work';
     return 'Home';
   };
 
@@ -76,7 +80,9 @@ const AppWrapper: React.FC = () => {
       case 'Careers': navigate('/careers'); break;
       case 'About': navigate('/about'); break;
       case 'Contact': navigate('/contact'); break;
-      case 'In The Media': navigate('/media'); break; // Add this line
+      case 'In The Media': navigate('/media'); break;
+      case 'Resources': navigate('/resources'); break;
+      case 'Where We Work': navigate('/where-we-work'); break;
       default: break;
     }
   };
@@ -104,7 +110,9 @@ const AppWrapper: React.FC = () => {
           <Route path="/apply" element={<Apply />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/media" element={<InTheMedia />} /> {/* Add this route */}
+          <Route path="/media" element={<InTheMedia />} />
+          <Route path="/resources" element={<Resources />} /> {/* Add this route */}
+          <Route path="/where-we-work" element={<WhereWeWork />} />
         </Routes>
       </Layout>
 
